@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Coalba2" parent="Theme.AppCompat.Light">
+    <style name="Theme.Coalba2" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -11,8 +11,7 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- 타이틀바, 상태바 없애기 -->
-        <item name="windowNoTitle">true</item>
+        <!-- 상태바 없애기 -->
         <item name="android:windowFullscreen">true</item>
     </style>
 </resources>
