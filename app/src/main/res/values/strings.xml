@@ -9,6 +9,9 @@
     <string name="base_name1">김다은</string>
     <string name="base_name2">신지연</string>
     <string name="base_name3">조예진</string>
+    <string name="base_store_name1">송이커피 숙대점</string>
+    <string name="base_store_name2">송이마라탕 숙대점</string>
+    <string name="base_store_name3">송이쌀국수 숙대점</string>
 
     <!-- BottomNavigation -->
     <string name="bottomnavigation_home">홈</string>
