@@ -8,6 +8,11 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
+import android.widget.Adapter
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -60,6 +65,22 @@ class StoreEditActivity : AppCompatActivity() {
         // 바인딩
         mBinding = ActivityStoreEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        var data = listOf("송이커피 숙대점", "송이쌀국수 숙대점", "송이마라탕 숙대점")
+        var adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, data)
+        binding.spinnerStore.adapter = adapter
+        binding.spinnerStore.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                if(position!=0){
+                    Toast.makeText(this@StoreEditActivity, data[position],Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+        }
+
         binding.ivStoreEditCamera.setOnClickListener {
             selectGallery()
         }
