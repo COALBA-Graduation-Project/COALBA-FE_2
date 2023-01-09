@@ -1,5 +1,6 @@
 package com.example.coalba2.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,8 @@ import android.view.ViewGroup
 import com.example.coalba2.data.response.StoreListData
 import com.example.coalba2.databinding.FragmentWorkspaceBinding
 import com.example.coalba2.ui.adapter.StoreListAdapter
+import com.example.coalba2.ui.view.StoreEditActivity
+import com.example.coalba2.ui.view.StoreRegisterActivity
 
 class WorkspaceFragment : Fragment() {
 
@@ -22,6 +25,14 @@ class WorkspaceFragment : Fragment() {
         binding = FragmentWorkspaceBinding.inflate(inflater, container, false)
         initRecycler()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.ivWorkspacePlus.setOnClickListener {
+            val intent = Intent(requireContext(), StoreRegisterActivity::class.java)
+            startActivity(intent)
+        }
+        super.onViewCreated(view, savedInstanceState)
     }
     private fun initRecycler(){
         storeListAdapter = StoreListAdapter(requireContext())
