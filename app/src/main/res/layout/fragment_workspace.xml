@@ -7,21 +7,25 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.WorkspaceFragment">
 
-    <ScrollView
-        android:id="@+id/sv_workspace"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_storelist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        tools:listitem="@layout/item_storelist"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_storelist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="vertical"
-            tools:listitem="@layout/item_storelist"/>
-    </ScrollView>
+    <ImageView
+        android:id="@+id/iv_workspace_plus"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/ic_plus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
