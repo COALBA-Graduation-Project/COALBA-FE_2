@@ -56,7 +56,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/cl_profile" />
 
-            <!-- todo camera 부분 수정 -->
             <ImageView
                 android:id="@+id/iv_register_camera"
                 android:layout_width="36dp"
