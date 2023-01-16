@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:layout_marginBottom="20dp"
+    android:background="@drawable/bg_recycle">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_parttime_manage_profile"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/ic_emptyimg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_parttime_manage_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:text="@string/base_name3"
+        android:textStyle="bold"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/iv_parttime_manage_profile"
+        app:layout_constraintTop_toTopOf="@id/iv_parttime_manage_profile"
+        app:layout_constraintBottom_toBottomOf="@id/iv_parttime_manage_profile"/>
+
+    <TextView
+        android:id="@+id/tv_parttime_manage_phonenumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:text="@string/profileregister_phonenumber"
+        android:textStyle="bold"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_parttime_manage_profile"/>
+
+    <TextView
+        android:id="@+id/tv_parttime_manage_phonenumber2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray"
+        android:textSize="13sp"
+        android:text="@string/parttimejobmanage_phonenumber"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/tv_parttime_manage_phonenumber"
+        app:layout_constraintTop_toTopOf="@id/tv_parttime_manage_phonenumber"
+        app:layout_constraintBottom_toBottomOf="@id/tv_parttime_manage_phonenumber"/>
+
+    <TextView
+        android:id="@+id/tv_parttime_manage_birth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:text="@string/profileregister_birth"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_parttime_manage_phonenumber"/>
+
+    <TextView
+        android:id="@+id/tv_parttime_manage_birth2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray"
+        android:textSize="13sp"
+        android:text="@string/parttimejobmanage_birth"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/tv_parttime_manage_birth"
+        app:layout_constraintTop_toTopOf="@id/tv_parttime_manage_birth"
+        app:layout_constraintBottom_toBottomOf="@id/tv_parttime_manage_birth"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
