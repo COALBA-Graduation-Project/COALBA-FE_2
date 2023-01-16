@@ -1,5 +1,6 @@
 package com.example.coalba2.ui.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.coalba2.R
@@ -21,6 +22,10 @@ class PartTimeJobManageActivity : AppCompatActivity() {
         // 바인딩
         mBinding = ActivityPartTimeJobManageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.ivParttimeManagePlus.setOnClickListener {
+            val intent = Intent(this, PartTimeJobAddActivity::class.java)
+            startActivity(intent)
+        }
         initRecycler()
     }
     private fun initRecycler(){
