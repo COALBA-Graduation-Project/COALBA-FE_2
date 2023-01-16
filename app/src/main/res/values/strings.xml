@@ -67,4 +67,9 @@
     <string name="mypage_manage2">대타근무 요청 관리</string>
     <string name="mypage_memo">메모장</string>
     <string name="mypage_logout">로그아웃</string>
+
+    <!-- PartTimeJobManage -->
+    <string name="parttimejobmanage_title">알바생 관리</string>
+    <string name="parttimejobmanage_phonenumber">01012345678</string>
+    <string name="parttimejobmanage_birth">1999.05.29</string>
 </resources>
