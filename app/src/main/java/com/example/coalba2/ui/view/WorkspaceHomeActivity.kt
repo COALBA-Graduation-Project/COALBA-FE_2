@@ -1,5 +1,6 @@
 package com.example.coalba2.ui.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,6 +11,7 @@ import com.example.coalba2.data.response.StoreListData
 import com.example.coalba2.databinding.ActivityWorkspaceHomeBinding
 import com.example.coalba2.ui.adapter.MonthAdapter
 import com.example.coalba2.ui.adapter.ScheduleAdapter
+import com.example.coalba2.ui.fragment.MessageFragment
 
 class WorkspaceHomeActivity : AppCompatActivity() {
     // 전역 변수로 바인딩 객체 선언
@@ -46,6 +48,18 @@ class WorkspaceHomeActivity : AppCompatActivity() {
 
         binding.ivWorkspacehomeBack.setOnClickListener {
             finish()
+        }
+        binding.ivWorkspacehomeManage.setOnClickListener {
+            val intent = Intent(this, PartTimeJobManageActivity::class.java)
+            startActivity(intent)
+        }
+        binding.ivWorkspacehomeScheduleplus.setOnClickListener {
+            val intent = Intent(this, ScheduleAddActivity::class.java)
+            startActivity(intent)
+        }
+        binding.ivWorkspacehomeMessagebox.setOnClickListener {
+            val intent = Intent(this, MessageBoxActivity::class.java)
+            startActivity(intent)
         }
     }
 
