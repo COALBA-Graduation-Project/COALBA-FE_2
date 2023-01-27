@@ -90,4 +90,17 @@
     <string name="workspacehome_fri">금</string>
     <string name="workspacehome_sat">토</string>
     <string name="workspacehome_day">11</string>
+
+    <!-- ScheduleAdd -->
+    <string name="scheduleadd_title">근무 스케줄 추가</string>
+    <string name="scheduleadd_date">근무날짜</string>
+    <string name="scheduleadd_exdate">2023.01.23</string>
+    <string name="scheduleadd_time">근무시간</string>
+    <string name="scheduleadd_starttime">15:00</string>
+    <string name="scheduleadd_endtime">19:00</string>
+    <string name="scheduleadd_person">알바생 선택</string>
+    <string name="scheduleadd_experson">알바생을 선택해주세요</string>
+    <string name="scheduleadd_wage">시급</string>
+    <string name="scheduleadd_et_wage">알바 시급을 적어주세요</string>
+    <string name="scheduleadd_plus">추가</string>
 </resources>
