@@ -1,6 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    style="@style/BottomSheetTheme"
+    android:background="@drawable/bg_picker_bottom_dialog">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_timenumpicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <NumberPicker
+            android:id="@+id/np_hour"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:solidColor="@color/white"
+            android:theme="@style/ThemeOverlay.NumberPicker"
+            app:layout_constraintEnd_toStartOf="@id/np_minute"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <NumberPicker
+            android:id="@+id/np_minute"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:solidColor="@color/white"
+            android:theme="@style/ThemeOverlay.NumberPicker"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/np_hour"
+            app:layout_constraintTop_toTopOf="@id/np_hour" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/btncancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="@string/base_cancel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnok"
+        app:layout_constraintTop_toBottomOf="@id/cl_timenumpicker"/>
+
+    <TextView
+        android:id="@+id/btnok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="@string/base_ok"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btncancel"
+        app:layout_constraintTop_toBottomOf="@id/cl_timenumpicker"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

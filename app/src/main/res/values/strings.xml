@@ -13,6 +13,8 @@
     <string name="base_store_name2">송이마라탕 숙대점</string>
     <string name="base_store_name3">송이쌀국수 숙대점</string>
     <string name="base_time">15:00-19:00</string>
+    <string name="base_ok">확인</string>
+    <string name="base_cancel">취소</string>
 
     <!-- BottomNavigation -->
     <string name="bottomnavigation_home">홈</string>
@@ -94,10 +96,13 @@
     <!-- ScheduleAdd -->
     <string name="scheduleadd_title">근무 스케줄 추가</string>
     <string name="scheduleadd_date">근무날짜</string>
-    <string name="scheduleadd_exdate">2023.01.23</string>
+    <string name="scheduleadd_exdate">2023.02.01</string>
     <string name="scheduleadd_time">근무시간</string>
-    <string name="scheduleadd_starttime">15:00</string>
-    <string name="scheduleadd_endtime">19:00</string>
+    <string name="scheduleadd_colon">:</string>
+    <string name="scheduleadd_starthour">15</string>
+    <string name="scheduleadd_startminute">00</string>
+    <string name="scheduleadd_endhour">19</string>
+    <string name="scheduleadd_endminute">00</string>
     <string name="scheduleadd_person">알바생 선택</string>
     <string name="scheduleadd_experson">알바생을 선택해주세요</string>
     <string name="scheduleadd_wage">시급</string>
