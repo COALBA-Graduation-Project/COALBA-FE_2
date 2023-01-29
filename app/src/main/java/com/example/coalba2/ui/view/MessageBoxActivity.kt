@@ -2,6 +2,8 @@ package com.example.coalba2.ui.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.coalba2.data.response.StoreListData
+import com.example.coalba2.data.response.StoreListForMessageData
 import com.example.coalba2.databinding.ActivityMessageBoxBinding
 import com.example.coalba2.databinding.ActivityWorkspaceHomeBinding
 
@@ -16,5 +18,7 @@ class MessageBoxActivity : AppCompatActivity() {
         // 바인딩
         mBinding = ActivityMessageBoxBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val data = intent.getParcelableExtra<StoreListForMessageData>("dataForMessage")
+        binding.tvMessagebox.text = data!!.name
     }
 }

@@ -46,6 +46,9 @@ class ScheduleAddActivity : AppCompatActivity() {
             }, getDate.get(Calendar.YEAR), getDate.get(Calendar.MONTH), getDate.get(Calendar.DAY_OF_MONTH))
             datepicker.show()
         }
+        binding.ivScheduleaddBack.setOnClickListener {
+            finish()
+        }
         timePickerClickListener()
         timePickerClickListener2()
         pickPersonClickListener()

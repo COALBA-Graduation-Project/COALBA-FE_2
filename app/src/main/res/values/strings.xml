@@ -108,4 +108,7 @@
     <string name="scheduleadd_wage">시급</string>
     <string name="scheduleadd_et_wage">알바 시급을 적어주세요</string>
     <string name="scheduleadd_plus">추가</string>
+
+    <!-- Messagebox -->
+
 </resources>

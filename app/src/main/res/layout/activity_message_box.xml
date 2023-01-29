@@ -6,4 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".ui.view.MessageBoxActivity">
 
+    <ImageView
+        android:id="@+id/iv_messagebox_back"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_messagebox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/base_store_name1"
+        android:textColor="@color/black"
+        android:textSize="21sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_messagebox_back"
+        app:layout_constraintBottom_toBottomOf="@id/iv_messagebox_back"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
