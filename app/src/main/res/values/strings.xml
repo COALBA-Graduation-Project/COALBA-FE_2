@@ -110,5 +110,6 @@
     <string name="scheduleadd_plus">추가</string>
 
     <!-- Messagebox -->
-
+    <string name="messagebox_date">2022/12/31</string>
+    <string name="messagebox_content">안녕하세요! 사장님 잘부탁드립니다...</string>
 </resources>

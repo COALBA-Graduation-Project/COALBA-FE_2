@@ -28,5 +28,17 @@
         app:layout_constraintTop_toTopOf="@id/iv_messagebox_back"
         app:layout_constraintBottom_toBottomOf="@id/iv_messagebox_back"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_messagebox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="32dp"
+        tools:listitem="@layout/item_messagebox"
+        android:overScrollMode="never"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_messagebox_back"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
