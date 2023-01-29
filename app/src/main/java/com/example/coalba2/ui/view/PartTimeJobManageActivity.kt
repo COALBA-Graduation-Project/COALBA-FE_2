@@ -26,6 +26,9 @@ class PartTimeJobManageActivity : AppCompatActivity() {
             val intent = Intent(this, PartTimeJobAddActivity::class.java)
             startActivity(intent)
         }
+        binding.ivParttimeManageBack.setOnClickListener {
+            finish()
+        }
         initRecycler()
     }
     private fun initRecycler(){
