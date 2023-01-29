@@ -45,6 +45,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:text="@string/base_cancel"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnok"
         app:layout_constraintTop_toBottomOf="@id/cl_timenumpicker"/>
@@ -55,6 +56,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:text="@string/base_ok"
+        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btncancel"
         app:layout_constraintTop_toBottomOf="@id/cl_timenumpicker"/>

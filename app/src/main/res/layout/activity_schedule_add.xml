@@ -54,6 +54,7 @@
                 android:textSize="15dp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                android:layout_marginTop="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
@@ -208,6 +209,89 @@
                     app:layout_constraintBottom_toBottomOf="@id/tv_scheduleadd_endhour"
                     app:layout_constraintEnd_toEndOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_scheduleadd_person"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/scheduleadd_person"
+                android:textSize="15dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_time1"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_person"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_mypage"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@id/tv_scheduleadd_person"
+                app:layout_constraintTop_toBottomOf="@+id/tv_scheduleadd_person">
+
+                <TextView
+                    android:id="@+id/tv_scheduleadd_putperson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/scheduleadd_experson"
+                    android:textSize="15dp"
+                    android:textColor="@color/gray"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/iv_scheduleadd_putperson"
+                    android:layout_width="16dp"
+                    android:layout_height="8dp"
+                    android:src="@drawable/ic_dropdown"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintTop_toTopOf="@id/tv_scheduleadd_putperson"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_scheduleadd_putperson"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_scheduleadd_wage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/scheduleadd_wage"
+                android:textSize="15dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_person"/>
+
+            <EditText
+                android:id="@+id/et_scheduleadd_wage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:hint="@string/scheduleadd_et_wage"
+                android:textSize="15dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_scheduleadd_wage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <Button
+                android:id="@+id/btn_scheduleadd_finish"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="@drawable/bg_disabledbtn"
+                android:layout_marginTop="200dp"
+                android:layout_marginHorizontal="12dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:text="@string/profileregister_completion"
+                app:layout_constraintTop_toBottomOf="@id/et_scheduleadd_wage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,13 +1,14 @@
 package com.example.coalba2.ui.view
 
 import android.app.DatePickerDialog
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.annotation.RequiresApi
 import com.example.coalba2.R
+import com.example.coalba2.data.response.ScheduleAddPersonData
 import com.example.coalba2.databinding.ActivityScheduleAddBinding
+import com.example.coalba2.databinding.DialogSchedulePersonBinding
 import com.example.coalba2.databinding.DialogScheduleTimeBottomSheetBinding
+import com.example.coalba2.ui.adapter.ScheduleAddAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.text.SimpleDateFormat
 import java.util.*
@@ -19,12 +20,18 @@ class ScheduleAddActivity : AppCompatActivity() {
     private val binding get() = mBinding!!
     var formatDate = SimpleDateFormat("yyyy.MM.dd", Locale.US)
 
+    // 알바생 추가 recyclerview
+    lateinit var scheduleAddAdapter: ScheduleAddAdapter
+    val datas = mutableListOf<ScheduleAddPersonData>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 바인딩
         mBinding = ActivityScheduleAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 스케줄 일정 datepicker
+        // todo: 추후에 bottom sheet로 보여지도록 수정하기
         binding.ivScheduleaddPutdate.setOnClickListener {
             val getDate: Calendar = Calendar.getInstance()
             val datepicker = DatePickerDialog(this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 ->
@@ -41,8 +48,10 @@ class ScheduleAddActivity : AppCompatActivity() {
         }
         timePickerClickListener()
         timePickerClickListener2()
+        pickPersonClickListener()
     }
 
+    // 스케줄 추가 start timepicker
     private fun timePickerClickListener() {
         binding.clTime1.setOnClickListener {
             val starttimeDialog = BottomSheetDialog(this, R.style.BottomSheetTheme)
@@ -181,6 +190,7 @@ class ScheduleAddActivity : AppCompatActivity() {
             }
         }
     }
+    // 스케줄 추가 end timepicker
     private fun timePickerClickListener2() {
         binding.clTime2.setOnClickListener {
             val endtimeDialog = BottomSheetDialog(this, R.style.BottomSheetTheme)
@@ -319,4 +329,27 @@ class ScheduleAddActivity : AppCompatActivity() {
             }
         }
     }
+    // 스케줄 추가 parttime person pick
+    private fun pickPersonClickListener() {
+        scheduleAddAdapter = ScheduleAddAdapter(this)
+        datas.apply {
+            add(ScheduleAddPersonData(img = R.drawable.ic_emptyimg, name = "김다은"))
+            add(ScheduleAddPersonData(img = R.drawable.ic_emptyimg, name = "신지연"))
+            add(ScheduleAddPersonData(img = R.drawable.ic_emptyimg, name = "조예진"))
+            add(ScheduleAddPersonData(img = R.drawable.ic_emptyimg, name = "김태형"))
+            add(ScheduleAddPersonData(img = R.drawable.ic_emptyimg, name = "차은우"))
+        }
+        scheduleAddAdapter.datas = datas
+        scheduleAddAdapter.notifyDataSetChanged()
+
+        binding.clPerson.setOnClickListener {
+            val putPersonDialog = BottomSheetDialog(this, R.style.BottomSheetTheme)
+            val sheetView = DialogSchedulePersonBinding.inflate(layoutInflater)
+            sheetView.rvSchedulePerson.adapter = scheduleAddAdapter
+
+            putPersonDialog.setContentView(sheetView.root)
+            putPersonDialog.show()
+        }
+    }
+    // todo: 모든 값이 입력되었을때 버튼 색 변경 및 활성화
 }
