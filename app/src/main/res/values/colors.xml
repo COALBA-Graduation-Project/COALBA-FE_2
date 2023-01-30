@@ -14,4 +14,6 @@
     <color name="mypage">#A0A0A0</color>
     <color name="gray_gray_5_main">#a0a4a8</color>
     <color name="gray_white">#fdfeff</color>
+    <color name="send_message">#F3C633</color>
+    <color name="receive_message">#1BB6BE</color>
 </resources>

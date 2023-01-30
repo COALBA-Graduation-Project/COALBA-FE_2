@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class StoreListData (
+data class StoreListForMessageData(
     @SerializedName("img")
     val img : Int,
     @SerializedName("name")

@@ -108,4 +108,22 @@
     <string name="scheduleadd_wage">시급</string>
     <string name="scheduleadd_et_wage">알바 시급을 적어주세요</string>
     <string name="scheduleadd_plus">추가</string>
+
+    <!-- Messagebox -->
+    <string name="messagebox_date">2022/12/31</string>
+    <string name="messagebox_content">안녕하세요! 사장님 잘부탁드립니다...</string>
+
+    <!-- Message -->
+    <string name="message_send">보낸 쪽지</string>
+    <string name="message_receive">받은 쪽지</string>
+    <string name="message_date">01/29</string>
+    <string name="message_time">16:20</string>
+    <string name="message_content">사장님!! 오늘 스케줄 나왔나요??</string>
+    <string name="message_send_title">전달 메시지</string>
+    <string name="message_send_content">전달할 메시지를 입력해주세요</string>
+    <string name="message_send_count">0</string>
+    <string name="message_send_slash">/</string>
+    <string name="message_send_limit">150</string>
+    <string name="message_send_btn">쪽지 보내기</string>
+
 </resources>
