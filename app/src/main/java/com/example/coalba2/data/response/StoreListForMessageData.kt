@@ -6,5 +6,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class StoreListForMessageData(
-    @SerializedName("img")val img : Int,
-    @SerializedName("name")val name : String) : Parcelable
+    @SerializedName("img")
+    val img : Int,
+    @SerializedName("name")
+    val name : String) : Parcelable

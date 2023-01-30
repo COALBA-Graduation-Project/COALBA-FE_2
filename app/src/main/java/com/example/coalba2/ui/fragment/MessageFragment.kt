@@ -25,6 +25,10 @@ class MessageFragment : Fragment() {
         initRecycler()
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
     private fun initRecycler(){
         storeListForMessageAdapter = StoreListForMessageAdapter(requireContext())
         binding.rvStorelistMessage.adapter = storeListForMessageAdapter

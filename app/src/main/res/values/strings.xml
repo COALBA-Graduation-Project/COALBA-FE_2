@@ -112,4 +112,11 @@
     <!-- Messagebox -->
     <string name="messagebox_date">2022/12/31</string>
     <string name="messagebox_content">안녕하세요! 사장님 잘부탁드립니다...</string>
+
+    <!-- Message -->
+    <string name="message_send">보낸 쪽지</string>
+    <string name="message_receive">받은 쪽지</string>
+    <string name="message_date">01/29</string>
+    <string name="message_time">16:20</string>
+    <string name="message_content">사장님!! 오늘 스케줄 나왔나요??</string>
 </resources>
