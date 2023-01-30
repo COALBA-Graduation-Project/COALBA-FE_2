@@ -34,11 +34,6 @@ class StoreEditActivity : AppCompatActivity() {
         const val REVIEW_MIN_LENGTH = 10
         // 갤러리 권한 요청
         const val REQ_GALLERY = 1
-        // API 호출시 Parameter Key 값
-        const val PARAM_KEY_IMAGE = "image"
-        const val PARAM_KEY_PRODUCT_ID = "product_id"
-        const val PARAM_KEY_REVIEW = "review_content"
-        const val PARAM_KEY_RATING = "rating"
     }
     // 이미지를 결과값으로 받는 변수
     private val imageResult = registerForActivityResult(

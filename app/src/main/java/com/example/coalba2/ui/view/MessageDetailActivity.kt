@@ -1,13 +1,16 @@
 package com.example.coalba2.ui.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.FrameLayout
 import com.example.coalba2.R
 import com.example.coalba2.data.response.MessageBoxData
 import com.example.coalba2.data.response.StoreListForMessageData
 import com.example.coalba2.databinding.ActivityMessageDetailBinding
 import com.example.coalba2.ui.fragment.MessageDetailFragment
+import com.example.coalba2.ui.fragment.MessageSendFragment
 
 class MessageDetailActivity : AppCompatActivity() {
     // 전역 변수로 바인딩 객체 선언
@@ -29,6 +32,10 @@ class MessageDetailActivity : AppCompatActivity() {
 
         binding.ivMessagedetailBack.setOnClickListener {
             finish()
+        }
+        binding.ivMessagedetailSend.setOnClickListener {
+            supportFragmentManager.beginTransaction().replace(R.id.fl_messagedatail, MessageSendFragment()).commit()
+            binding.ivMessagedetailSend.visibility = View.GONE
         }
     }
     // 액티비티가 파괴될 때..
