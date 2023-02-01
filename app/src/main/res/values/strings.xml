@@ -130,8 +130,8 @@
 
     <!-- SubstituteWork -->
     <string name="substitutework_process_title">대타근무 요청 처리</string>
-    <string name="substitutework_manage_title">대타근무 요청 상세</string>
-    <string name="substitutework_detail_title">대타근무 요청 관리</string>
+    <string name="substitutework_detail_title">대타근무 요청 상세</string>
+    <string name="substitutework_manage_title">대타근무 요청 관리</string>
     <string name="substitutework_message">요청 메시지</string>
     <string name="substitutework_exmessage">이날 갑자기 학교 시험 일정이 잡혀버려서요.. 대타 부탁드립니다!</string>
     <string name="substitutework_process_ok">요청 수락</string>

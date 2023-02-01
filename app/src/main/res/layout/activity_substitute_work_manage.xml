@@ -7,4 +7,36 @@
     android:layout_height="match_parent"
     tools:context=".ui.view.SubstituteWorkManageActivity">
 
+    <ImageView
+        android:id="@+id/iv_substitutework_manage_back"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_substitutework_manage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/substitutework_manage_title"
+        android:textColor="@color/black"
+        android:textSize="21dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_substitutework_manage_back"
+        app:layout_constraintBottom_toBottomOf="@id/iv_substitutework_manage_back"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_substitutework_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_substitutework_manage"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
