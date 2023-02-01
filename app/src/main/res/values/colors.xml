@@ -16,4 +16,5 @@
     <color name="gray_white">#fdfeff</color>
     <color name="send_message">#F3C633</color>
     <color name="receive_message">#1BB6BE</color>
+    <color name="substitutework_line">#ADADAD</color>
 </resources>

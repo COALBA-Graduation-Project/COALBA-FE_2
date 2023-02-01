@@ -13,6 +13,8 @@
     <string name="base_store_name2">송이마라탕 숙대점</string>
     <string name="base_store_name3">송이쌀국수 숙대점</string>
     <string name="base_time">15:00-19:00</string>
+    <string name="base_starttime">15:00</string>
+    <string name="base_endtime">19:00</string>
     <string name="base_ok">확인</string>
     <string name="base_cancel">취소</string>
 
@@ -125,5 +127,17 @@
     <string name="message_send_slash">/</string>
     <string name="message_send_limit">150</string>
     <string name="message_send_btn">쪽지 보내기</string>
+
+    <!-- SubstituteWork -->
+    <string name="substitutework_process_title">대타근무 요청 처리</string>
+    <string name="substitutework_detail_title">대타근무 요청 상세</string>
+    <string name="substitutework_manage_title">대타근무 요청 관리</string>
+    <string name="substitutework_message">요청 메시지</string>
+    <string name="substitutework_exmessage">이날 갑자기 학교 시험 일정이 잡혀버려서요.. 대타 부탁드립니다!</string>
+    <string name="substitutework_process_ok">요청 수락</string>
+    <string name="substitutework_process_no">요청 거절</string>
+    <string name="substitutework_process_dash">-</string>
+    <string name="substitutework_state_refuse">거절</string>
+    <string name="substitutework_state_submit">수락</string>
 
 </resources>

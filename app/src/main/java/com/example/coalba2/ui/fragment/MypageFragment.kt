@@ -10,6 +10,7 @@ import com.example.coalba2.R
 import com.example.coalba2.databinding.FragmentMypageBinding
 import com.example.coalba2.ui.view.ProfileEditActivity
 import com.example.coalba2.ui.view.StoreEditActivity
+import com.example.coalba2.ui.view.SubstituteWorkManageActivity
 
 class MypageFragment : Fragment() {
     // 전역 변수로 바인딩 객체 선언
@@ -32,6 +33,10 @@ class MypageFragment : Fragment() {
         }
         binding.btnMypageStore.setOnClickListener {
             val intent = Intent(requireContext(), StoreEditActivity::class.java)
+            startActivity(intent)
+        }
+        binding.tvMypageManage2.setOnClickListener {
+            val intent = Intent(requireContext(), SubstituteWorkManageActivity::class.java)
             startActivity(intent)
         }
         super.onViewCreated(view, savedInstanceState)

@@ -5,10 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.view.PartTimeJobManageActivity">
+    tools:context=".ui.view.SubstituteWorkManageActivity">
 
     <ImageView
-        android:id="@+id/iv_parttime_manage_back"
+        android:id="@+id/iv_substitutework_manage_back"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_margin="16dp"
@@ -17,38 +17,26 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/tv_parttime_manage"
+        android:id="@+id/tv_substitutework_manage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/parttimejobmanage_title"
+        android:text="@string/substitutework_manage_title"
         android:textColor="@color/black"
-        android:textSize="21sp"
+        android:textSize="21dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/iv_parttime_manage_back"
-        app:layout_constraintBottom_toBottomOf="@id/iv_parttime_manage_back"/>
-
-    <ImageView
-        android:id="@+id/iv_parttime_manage_plus"
-        android:layout_width="32dp"
-        android:layout_height="24dp"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_parttime_plus"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="@id/iv_substitutework_manage_back"
+        app:layout_constraintBottom_toBottomOf="@id/iv_substitutework_manage_back"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_parttime_manage"
+        android:id="@+id/rv_substitutework_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="vertical"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="28dp"
-        tools:listitem="@layout/item_parttime_manage"
         android:overScrollMode="never"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_parttime_manage_back"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_substitutework_manage"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

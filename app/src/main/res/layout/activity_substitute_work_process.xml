@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.view.SubstituteWorkProcessActivity">
+
+    <ImageView
+        android:id="@+id/iv_substitutework_process_back"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_substitutework_process"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/substitutework_process_title"
+        android:textColor="@color/black"
+        android:textSize="21dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_substitutework_process_back"
+        app:layout_constraintBottom_toBottomOf="@id/iv_substitutework_process_back"/>
+
+    <ImageView
+        android:id="@+id/iv_substitutework_process_profile1"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:src="@drawable/ic_emptyimg"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_substitutework_process"/>
+
+    <TextView
+        android:id="@+id/tv_substitutework_process_name1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/base_name2"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="21dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@id/iv_substitutework_process_profile1"
+        app:layout_constraintTop_toTopOf="@id/iv_substitutework_process_profile1"
+        app:layout_constraintBottom_toBottomOf="@id/iv_substitutework_process_profile1"/>
+
+    <ImageView
+        android:id="@+id/iv_substitutework_process_arrow"
+        android:layout_width="28dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_arrow"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/tv_substitutework_process_name1"
+        app:layout_constraintTop_toTopOf="@id/tv_substitutework_process_name1"
+        app:layout_constraintBottom_toBottomOf="@id/tv_substitutework_process_name1"/>
+
+    <ImageView
+        android:id="@+id/iv_substitutework_process_profile2"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:src="@drawable/ic_emptyimg"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toEndOf="@id/iv_substitutework_process_arrow"
+        app:layout_constraintTop_toBottomOf="@id/tv_substitutework_process"/>
+
+    <TextView
+        android:id="@+id/tv_substitutework_process_name2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/base_name1"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="21dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@id/iv_substitutework_process_profile2"
+        app:layout_constraintTop_toTopOf="@id/iv_substitutework_process_profile2"
+        app:layout_constraintBottom_toBottomOf="@id/iv_substitutework_process_profile2"/>
+
+    <TextView
+        android:id="@+id/tv_substitutework_process_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/substitutework_state_submit"
+        android:textStyle="bold"
+        android:textColor="@color/main"
+        android:textSize="17dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="4dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_substitutework_process"/>
+
+    <View
+        android:id="@+id/ll_substitutework_process"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/substitutework_line"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_substitutework_process_profile1"/>
+
+    <ImageView
+        android:id="@+id/iv_substitutework_process_store"
+        android:layout_width="32dp"
+        android:layout_height="28dp"
+        android:src="@drawable/ic_store"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_substitutework_process"/>
+
+    <TextView
+        android:id="@+id/tv_substitutework_process_store"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/base_store_name1"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/iv_substitutework_process_store"
+        app:layout_constraintTop_toTopOf="@id/iv_substitutework_process_store"
+        app:layout_constraintBottom_toBottomOf="@id/iv_substitutework_process_store"/>
+
+    <ImageView
+        android:id="@+id/iv_substitutework_process_time"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_worktime"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="@id/iv_substitutework_process_store"
+        app:layout_constraintTop_toBottomOf="@id/iv_substitutework_process_store"/>
+
+    <TextView
+        android:id="@+id/tv_substitutework_process_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/message_date"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/iv_substitutework_process_time"
+        app:layout_constraintTop_toTopOf="@id/iv_substitutework_process_time"
+        app:layout_constraintBottom_toBottomOf="@id/iv_substitutework_process_time"/>
+
+    <TextView
+        android:id="@+id/tv_substitutework_process_starttime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/base_starttime"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@id/tv_substitutework_process_date"
+        app:layout_constraintTop_toTopOf="@id/iv_substitutework_process_time"
+        app:layout_constraintBottom_toBottomOf="@id/iv_substitutework_process_time"/>
+
+    <TextView
+        android:id="@+id/tv_substitutework_process_dash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/substitutework_process_dash"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toEndOf="@id/tv_substitutework_process_starttime"
+        app:layout_constraintTop_toTopOf="@id/iv_substitutework_process_time"
+        app:layout_constraintBottom_toBottomOf="@id/iv_substitutework_process_time"/>
+
+    <TextView
+        android:id="@+id/tv_substitutework_process_endtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/base_endtime"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toEndOf="@id/tv_substitutework_process_dash"
+        app:layout_constraintTop_toTopOf="@id/iv_substitutework_process_time"
+        app:layout_constraintBottom_toBottomOf="@id/iv_substitutework_process_time"/>
+
+    <TextView
+        android:id="@+id/tv_substitutework_process_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/substitutework_message"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_substitutework_process_time"/>
+
+    <EditText
+        android:id="@+id/et_substitutework_message"
+        android:layout_width="match_parent"
+        android:layout_height="152dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_mypage"
+        android:text= "@string/substitutework_exmessage"
+        android:gravity="start"
+        android:padding="12dp"
+        android:textSize="15dp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_substitutework_process_message"/>
+
+    <Button
+        android:id="@+id/btn_refuse"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_refusebtn"
+        android:textSize="19dp"
+        android:textStyle="bold"
+        android:textColor="@color/main"
+        android:text="@string/substitutework_process_no"
+        android:layout_marginTop="64dp"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_submit"
+        app:layout_constraintTop_toBottomOf="@id/et_substitutework_message"/>
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_basicbtn"
+        android:textSize="19dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:text="@string/substitutework_process_ok"
+        android:layout_marginTop="64dp"
+        android:visibility="visible"
+        app:layout_constraintStart_toEndOf="@id/btn_refuse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_substitutework_message"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
