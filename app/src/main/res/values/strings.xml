@@ -137,5 +137,7 @@
     <string name="substitutework_process_ok">요청 수락</string>
     <string name="substitutework_process_no">요청 거절</string>
     <string name="substitutework_process_dash">-</string>
+    <string name="substitutework_state_refuse">거절</string>
+    <string name="substitutework_state_submit">수락</string>
 
 </resources>
