@@ -63,7 +63,7 @@ dependencies {
     // 구글 로그인
     implementation 'com.google.android.gms:play-services-auth:20.3.0'
     // 네이버 로그인
-    implementation 'com.naver.nid:naveridlogin-android-sdk:4.2.6'
+    implementation 'com.navercorp.nid:oauth:5.4.0' // jdk 11
     // recyclerview
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     // 원형 프로필

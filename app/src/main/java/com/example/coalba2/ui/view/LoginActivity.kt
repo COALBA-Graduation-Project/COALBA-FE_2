@@ -14,8 +14,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
-import com.nhn.android.naverlogin.OAuthLogin
-import com.nhn.android.naverlogin.OAuthLoginHandler
 import com.example.coalba2.BuildConfig
 import com.example.coalba2.api.jwt.CoalbaApplication
 import com.example.coalba2.api.retrofit.RetrofitManager
@@ -24,6 +22,9 @@ import com.example.coalba2.data.request.AuthRequestData
 import com.example.coalba2.data.request.GoogleLoginRequestData
 import com.example.coalba2.data.response.AuthResponseData
 import com.example.coalba2.data.response.GoogleLoginResponseData
+import com.navercorp.nid.NaverIdLoginSDK
+import com.navercorp.nid.NaverIdLoginSDK.oauthLoginCallback
+import com.navercorp.nid.oauth.OAuthLoginCallback
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,8 +38,8 @@ class LoginActivity : AppCompatActivity() {
     lateinit var googleSignInClient: GoogleSignInClient
     lateinit var authResultLauncher: ActivityResultLauncher<Intent>  // 액티비티에서 데이터를 받아오기 위해
 
-    lateinit var mOAuthLogin: OAuthLogin
-    lateinit var mOAuthLoginHandler: OAuthLoginHandler
+    // lateinit var mOAuthLogin: OAuthLogin
+    // lateinit var mOAuthLoginHandler: OAuthLoginHandler
     // var mContext: Context? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
         binding.googleLoginbtn.setOnClickListener { googleLogin() }
         // 네이버 로그인
         initForNaverLogin()
-        binding.naverLoginbtn.setOAuthLoginHandler(mOAuthLoginHandler)
+        binding.naverLoginbtn.setOAuthLogin(oauthLoginCallback!!)
     }
 
     private fun initForGoogleLogin() {
@@ -120,36 +121,40 @@ class LoginActivity : AppCompatActivity() {
         authResultLauncher.launch(signInIntent)
     }
 
+    // 네이버 로그인
     private fun initForNaverLogin() {
         val naver_client_id: String = BuildConfig.NAVER_CLIENT_ID
         val naver_client_secret: String = BuildConfig.NAVER_CLIENT_SECRET
         val naver_client_name = "COALBA"
+        NaverIdLoginSDK.initialize(this, naver_client_id, naver_client_secret, naver_client_name)
 
-        mOAuthLogin = OAuthLogin.getInstance()
-        mOAuthLogin.init(this, naver_client_id, naver_client_secret, naver_client_name)
-        mOAuthLoginHandler = object: OAuthLoginHandler() {
-            override fun run(success: Boolean) {
-                if (success) { //성공 시
-                    //네이버는 기본적으로 access_token, refresh_token 매번 모두 바로 발급됨
-                    val accessToken: String = mOAuthLogin.getAccessToken(this@LoginActivity)
-                    val refreshToken: String = mOAuthLogin.getRefreshToken(this@LoginActivity)
-                    Log.d("NaverLogin", "accessToken=${accessToken}, refreshToken=${refreshToken}")
-                    mOAuthLogin.logout(this@LoginActivity)
-                    login("NAVER", accessToken, refreshToken) //백 서버 로그인
-                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                    startActivity(intent)
-                } else { //실패 시
-                    val errorCode: String = mOAuthLogin.getLastErrorCode(this@LoginActivity).code
-                    val errorDesc = mOAuthLogin.getLastErrorDesc(this@LoginActivity)
-                    Toast.makeText(
-                        this@LoginActivity,
-                        "errorCode: " + errorCode + ", errorDesc: " + errorDesc,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+        val oauthLoginCallback = object : OAuthLoginCallback {
+            override fun onSuccess() {
+                // 네이버 로그인 인증이 성공했을 때 수행할 코드 추가
+                //네이버는 기본적으로 access_token, refresh_token 매번 모두 바로 발급됨
+                val accessToken: String? = NaverIdLoginSDK.getAccessToken()
+                val refreshToken: String? = NaverIdLoginSDK.getRefreshToken()
+                login("NAVER", accessToken, refreshToken) //백 서버 로그인
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                startActivity(intent)
+
+                // binding.tvExpires.text = NaverIdLoginSDK.getExpiresAt().toString()
+                // binding.tvType.text = NaverIdLoginSDK.getTokenType()
+                // binding.tvState.text = NaverIdLoginSDK.getState().toString()
+            }
+            override fun onFailure(httpStatus: Int, message: String) {
+                val errorCode = NaverIdLoginSDK.getLastErrorCode().code
+                val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
+                Toast.makeText(this@LoginActivity,"errorCode:$errorCode, errorDesc:$errorDescription",Toast.LENGTH_SHORT).show()
+            }
+            override fun onError(errorCode: Int, message: String) {
+                onFailure(errorCode, message)
             }
         }
+
+        NaverIdLoginSDK.authenticate(this, oauthLoginCallback)
     }
+
     fun login(provider: String, accessToken: String?, refreshToken: String?) {
         RetrofitManager.authService?.login(provider, "STAFF", AuthRequestData(accessToken!!, refreshToken!!))
             ?.enqueue(object : Callback<AuthResponseData> {
