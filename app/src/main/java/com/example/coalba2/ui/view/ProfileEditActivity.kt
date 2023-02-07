@@ -24,7 +24,6 @@ class ProfileEditActivity : AppCompatActivity() {
     var imageFile : File? = null
 
     companion object {
-        const val REVIEW_MIN_LENGTH = 10
         // 갤러리 권한 요청
         const val REQ_GALLERY = 1
     }

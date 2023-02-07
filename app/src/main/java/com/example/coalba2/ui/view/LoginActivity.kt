@@ -133,6 +133,8 @@ class LoginActivity : AppCompatActivity() {
                 // 네이버는 기본적으로 access_token, refresh_token 매번 모두 바로 발급됨
                 val accessToken: String? = NaverIdLoginSDK.getAccessToken()
                 val refreshToken: String? = NaverIdLoginSDK.getRefreshToken()
+                // 자동 로그인 방지하려면 밑에 코드 사용해야 함
+                // NaverIdLoginSDK.logout()
                 if (CoalbaApplication.prefs.accessToken == null && CoalbaApplication.prefs.refreshToken == null){
                     login("NAVER", accessToken, refreshToken) //백 서버 로그인
                 }
