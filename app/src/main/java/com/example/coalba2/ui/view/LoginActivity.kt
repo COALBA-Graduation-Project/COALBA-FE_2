@@ -38,10 +38,6 @@ class LoginActivity : AppCompatActivity() {
     lateinit var googleSignInClient: GoogleSignInClient
     lateinit var authResultLauncher: ActivityResultLauncher<Intent>  // 액티비티에서 데이터를 받아오기 위해
 
-    // lateinit var mOAuthLogin: OAuthLogin
-    // lateinit var mOAuthLoginHandler: OAuthLoginHandler
-    // var mContext: Context? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 바인딩
@@ -101,15 +97,18 @@ class LoginActivity : AppCompatActivity() {
                 if (response.isSuccessful) { //성공 시
                     Log.d("Google Login", "onResponse: ${response.body()}")
                     //아래 코드 없으면 다음 로그인 시 자동 로그인 됨, 즉 다른 계정으로 로그인하고 싶어도 이전에 로그인했던 계정으로 자동 로그인
-                    googleSignInClient.signOut()
-                    login("GOOGLE", response.body()?.accessToken, response.body()?.refreshToken) //백 서버 로그인
-                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                    startActivity(intent)
+                    // googleSignInClient.signOut()
+                    if (CoalbaApplication.prefs.accessToken == null && CoalbaApplication.prefs.refreshToken == null){
+                        login("GOOGLE", response.body()?.accessToken, response.body()?.refreshToken) //백 서버 로그인
+                    }
+                    else{
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        startActivity(intent)
+                    }
                 } else { //실패 시
                     Log.e("Google Login", "onResponseFail: ${response.code()}")
                 }
             }
-
             //실패 시
             override fun onFailure(call: Call<GoogleLoginResponseData>, t: Throwable) {
                 Log.e("Google Login", "onFailure: ${t.fillInStackTrace()}")
@@ -131,12 +130,16 @@ class LoginActivity : AppCompatActivity() {
         val oauthLoginCallback = object : OAuthLoginCallback {
             override fun onSuccess() {
                 // 네이버 로그인 인증이 성공했을 때 수행할 코드 추가
-                //네이버는 기본적으로 access_token, refresh_token 매번 모두 바로 발급됨
+                // 네이버는 기본적으로 access_token, refresh_token 매번 모두 바로 발급됨
                 val accessToken: String? = NaverIdLoginSDK.getAccessToken()
                 val refreshToken: String? = NaverIdLoginSDK.getRefreshToken()
-                login("NAVER", accessToken, refreshToken) //백 서버 로그인
-                val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                startActivity(intent)
+                if (CoalbaApplication.prefs.accessToken == null && CoalbaApplication.prefs.refreshToken == null){
+                    login("NAVER", accessToken, refreshToken) //백 서버 로그인
+                }
+                else{
+                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    startActivity(intent)
+                }
 
                 // binding.tvExpires.text = NaverIdLoginSDK.getExpiresAt().toString()
                 // binding.tvType.text = NaverIdLoginSDK.getTokenType()
@@ -155,6 +158,7 @@ class LoginActivity : AppCompatActivity() {
         NaverIdLoginSDK.authenticate(this, oauthLoginCallback)
     }
 
+    // 처음 로그인해서 백 서버에게 토큰 값을 받아야 할 경우
     fun login(provider: String, accessToken: String?, refreshToken: String?) {
         RetrofitManager.authService?.login(provider, "STAFF", AuthRequestData(accessToken!!, refreshToken!!))
             ?.enqueue(object : Callback<AuthResponseData> {
@@ -170,12 +174,15 @@ class LoginActivity : AppCompatActivity() {
                         //백 서버로부터 발급받은 token 내부 저장소에 저장
                         CoalbaApplication.prefs.accessToken = result?.accessToken
                         CoalbaApplication.prefs.refreshToken = result?.refreshToken
+
+                        // 처음 로그인할 때 프로필 등록 화면으로 가장 먼저 이동해야 함
+                        val intent = Intent(this@LoginActivity, ProfileRegisterActivity::class.java)
+                        startActivity(intent)
                     } else { //실패 시
                         Log.e(ContentValues.TAG, "onResponse: ${response.code()}")
                         Log.d("server err", response.errorBody()?.string().toString())
                     }
                 }
-
                 //실패 시
                 override fun onFailure(call: Call<AuthResponseData>, t: Throwable) {
                     Log.e(ContentValues.TAG, "RetrofitManager - onFailure() called / t: ${t.fillInStackTrace()}")
