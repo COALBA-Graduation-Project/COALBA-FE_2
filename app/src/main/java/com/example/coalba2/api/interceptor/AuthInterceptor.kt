@@ -1,6 +1,6 @@
 package com.example.coalba2.api.interceptor
 
-import com.example.coalba2.api.jwt.App
+import com.example.coalba2.api.jwt.CoalbaApplication
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -9,7 +9,7 @@ class AuthInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         // chain에 "Authorization"이라는 key와 prefs의 value를 가진 헤더를 붙인 뒤 return
-        var request = chain.request().newBuilder().addHeader("Authorization", "Bearer " + App.prefs.accessToken).build()
+        var request = chain.request().newBuilder().addHeader("Authorization", "Bearer " + CoalbaApplication.prefs.accessToken).build()
         return chain.proceed(request)
     }
 }

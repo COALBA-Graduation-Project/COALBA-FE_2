@@ -2,14 +2,14 @@ package com.example.coalba2.api.jwt
 
 import android.app.Application
 
-class App: Application() {
+class CoalbaApplication : Application() {
 
     companion object {
-        lateinit var prefs: Prefs
+        lateinit var prefs: CoalbaSharedPreference
     }
 
     override fun onCreate() {
-        prefs = Prefs(applicationContext)
+        prefs = CoalbaSharedPreference(applicationContext)
         super.onCreate()
     }
 }

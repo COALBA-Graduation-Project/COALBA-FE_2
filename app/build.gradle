@@ -3,6 +3,9 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android-extensions'
 }
+// local.properties 사용을 위함
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
     namespace 'com.example.coalba2'
@@ -16,6 +19,15 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // NAVER_CLIENT_ID
+        buildConfigField "String", "NAVER_CLIENT_ID", properties['NAVER_CLIENT_ID']
+        // NAVER_CLIENT_SECRET
+        buildConfigField "String", "NAVER_CLIENT_SECRET", properties['NAVER_CLIENT_SECRET']
+        // GOOGLE_CLIENT_ID
+        buildConfigField "String", "GOOGLE_CLIENT_ID", properties['GOOGLE_CLIENT_ID']
+        // GOOGLE_CLIENT_SECRET
+        buildConfigField "String", "GOOGLE_CLIENT_SECRET", properties['GOOGLE_CLIENT_SECRET']
     }
 
     buildFeatures{
@@ -48,9 +60,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
-    //구글 로그인
+    // 구글 로그인
     implementation 'com.google.android.gms:play-services-auth:20.3.0'
-    //네이버 로그인
+    // 네이버 로그인
     implementation 'com.naver.nid:naveridlogin-android-sdk:4.2.6'
     // recyclerview
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
