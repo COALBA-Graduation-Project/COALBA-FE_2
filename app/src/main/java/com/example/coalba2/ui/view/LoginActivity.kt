@@ -162,7 +162,7 @@ class LoginActivity : AppCompatActivity() {
 
     // 처음 로그인해서 백 서버에게 토큰 값을 받아야 할 경우
     fun login(provider: String, accessToken: String?, refreshToken: String?) {
-        RetrofitManager.authService?.login(provider, "STAFF", AuthRequestData(accessToken!!, refreshToken!!))
+        RetrofitManager.authService?.login(provider, "BOSS", AuthRequestData(accessToken!!, refreshToken!!))
             ?.enqueue(object : Callback<AuthResponseData> {
                 override fun onResponse(
                     call: Call<AuthResponseData>,

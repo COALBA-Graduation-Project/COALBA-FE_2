@@ -69,7 +69,7 @@ class ProfileRegisterActivity : AppCompatActivity() {
             selectGallery()
         }
 
-        // 프로필 등록 서버 연동 => 아직
+        // todo: 프로필 등록 서버 연동 => 아직
         binding.btnRegisterFinish.setOnClickListener {
             Log.d("profileRegister", "시작")
             Log.d("datavalue", "multipart값=> " + imageWideUri)
@@ -77,7 +77,7 @@ class ProfileRegisterActivity : AppCompatActivity() {
             // 서버로 보내기 위해 RequestBody객체로 변환
             val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), imageFile!!)
             val body =
-                MultipartBody.Part.createFormData("imageUrl", imageFile!!.name, requestFile)
+                MultipartBody.Part.createFormData("imageFile", imageFile!!.name, requestFile)
             // String 값에 "" 없애기
             val jsonObj = JSONObject()
             jsonObj.put("realName", binding.etRegisterName.text)
