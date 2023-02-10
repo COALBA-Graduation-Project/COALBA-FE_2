@@ -8,7 +8,7 @@ import retrofit2.http.*
 
 interface ProfileService {
     // 프로필 관련 service
-    // 프로필 수정 => 아직
+    // 프로필 수정
     @Multipart
     @POST("boss/profile")
     fun profileRegister(@Part("profile") ProfileRegisterData: RequestBody, @Part imageFile: MultipartBody.Part): Call<Void>

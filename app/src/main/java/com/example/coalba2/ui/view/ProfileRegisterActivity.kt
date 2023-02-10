@@ -69,7 +69,7 @@ class ProfileRegisterActivity : AppCompatActivity() {
             selectGallery()
         }
 
-        // todo: 프로필 등록 서버 연동 => 아직
+        // 프로필 등록 서버 연동
         binding.btnRegisterFinish.setOnClickListener {
             Log.d("profileRegister", "시작")
             Log.d("datavalue", "multipart값=> " + imageWideUri)
