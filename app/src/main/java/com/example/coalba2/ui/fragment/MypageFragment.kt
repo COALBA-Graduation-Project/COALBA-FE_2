@@ -24,6 +24,7 @@ class MypageFragment : Fragment() {
     private var mBinding: FragmentMypageBinding? = null
     // 매번 null 체크를 할 필요없이 편의성을 위해 바인딩 변수 재선언
     private val binding get() = mBinding!!
+    var sendData: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +37,7 @@ class MypageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.btnMypageProfile.setOnClickListener {
             val intent = Intent(requireContext(), ProfileEditActivity::class.java)
+            intent.putExtra("prevImageUrl", sendData)
             startActivity(intent)
         }
         binding.btnMypageStore.setOnClickListener {
@@ -46,7 +48,7 @@ class MypageFragment : Fragment() {
             val intent = Intent(requireContext(), SubstituteWorkManageActivity::class.java)
             startActivity(intent)
         }
-        // todo: 프로필 조회 서버 연동
+        // 프로필 조회 서버 연동
         RetrofitManager.profileService?.profileLook()?.enqueue(object: Callback<ProfileLookResponseData>{
             override fun onResponse(
                 call: Call<ProfileLookResponseData>,
@@ -56,6 +58,7 @@ class MypageFragment : Fragment() {
                     Log.d("Network_ProfileLook", "success")
                     val data = response.body()
                     binding.tvMypageName.text = data!!.realName
+                    sendData = data!!.imageUrl
                     Glide.with(this@MypageFragment).load(data!!.imageUrl).into(binding.ivMypageProfile)
 
                 }else{

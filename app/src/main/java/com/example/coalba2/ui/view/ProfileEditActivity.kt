@@ -8,12 +8,23 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.coalba2.R
+import com.example.coalba2.api.retrofit.RetrofitManager
 import com.example.coalba2.databinding.ActivityProfileEditBinding
+import com.example.coalba2.ui.fragment.MypageFragment
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.File
 
 class ProfileEditActivity : AppCompatActivity() {
@@ -21,7 +32,9 @@ class ProfileEditActivity : AppCompatActivity() {
     private var mBinding: ActivityProfileEditBinding? = null
     // 매번 null 체크를 할 필요없이 편의성을 위해 바인딩 변수 재선언
     private val binding get() = mBinding!!
+    // 갤러리에서 가져온 프로필 이미지를 백 서버에게 보내주기 위함
     var imageFile : File? = null
+    var imageWideUri: Uri? = null
 
     companion object {
         // 갤러리 권한 요청
@@ -34,9 +47,10 @@ class ProfileEditActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK){
             // 이미지를 받으면 ImageView에 적용
             val imageUri = result.data?.data
+            imageWideUri = imageUri
             imageUri?.let{
                 // 서버 업로드를 위해 파일 형태로 변환
-                imageFile = File(getRealPathFromURI(it))
+                // imageFile = File(getRealPathFromURI(it))
 
                 // 이미지를 불러온다
                 Glide.with(this)
@@ -58,6 +72,53 @@ class ProfileEditActivity : AppCompatActivity() {
         }
         binding.ivProfileBack.setOnClickListener {
             finish()
+        }
+        val fragment = MypageFragment()
+        val transaction = supportFragmentManager.beginTransaction()
+
+        // 프로필 수정 서버 연동
+        binding.btnProfileFinish.setOnClickListener {
+            Log.d("profileEdit", "시작")
+            Log.d("datavalue", "multipart값=> " + imageWideUri)
+            imageFile = File(getRealPathFromURI(imageWideUri!!))
+            // 서버로 보내기 위해 RequestBody객체로 변환
+            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), imageFile!!)
+            val body =
+                MultipartBody.Part.createFormData("imageFile", imageFile!!.name, requestFile)
+            // String 값에 "" 없애기
+            val sendData = intent.getIntExtra("prevImageUrl", 0)
+            val jsonObj = JSONObject()
+            jsonObj.put("realName", binding.etProfileName.text)
+            jsonObj.put("phoneNumber", binding.etProfilePhonenumber.text)
+            jsonObj.put("birthDate", binding.etProfileBirth.text)
+            jsonObj.put("prevImageUrl", sendData)
+            val body2 = RequestBody.create("application/json".toMediaTypeOrNull(), jsonObj.toString())
+            // 현재 사용자의 정보를 받아올 것을 명시
+            // 서버 통신은 I/O 작업이므로 비동기적으로 받아올 Callback 내부 코드는 나중에 데이터를 받아오고 실행
+            RetrofitManager.profileService?.profileEdit(body2,body)?.enqueue(object :
+                Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    // 네트워크 통신에 성공한 경우
+                    if (response.isSuccessful) {
+                        Log.d("Network_ProfileEdit", "success")
+                        val data = response.body()
+                        Log.d("responsevalue", "response값=> " + data)
+                        // 마이페이지화면으로 이동 => todo: 마이페이지 데이터 값 변경되도록 수정
+                        finish()
+
+                    }else { // 이곳은 에러 발생할 경우 실행됨
+                        val data1 = response.code()
+                        Log.d("status code", data1.toString())
+                        val data2 = response.headers()
+                        Log.d("header", data2.toString())
+                        Log.d("server err", response.errorBody()?.string().toString())
+                        Log.d("Network_ProfileEdit", "fail")
+                    }
+                }
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Log.d("Network_ProfileEdit", "error!")
+                }
+            })
         }
     }
     // 이미지 실제 경로 반환
