@@ -47,6 +47,7 @@ class PartTimeJobManageActivity : AppCompatActivity() {
             ) {
                 if(response.isSuccessful){
                     Log.d("Network_WorkspaceStaffListLook", "success")
+                    Log.d("Network_WorkspaceStaffListLook_data", intent.getLongExtra("storeId", 0).toString())
                     val data = response.body()
                     val num = data!!.staffInfoList.count()
                     Log.d("num 값", "num 값 " + num)

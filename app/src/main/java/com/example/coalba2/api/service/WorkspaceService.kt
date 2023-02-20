@@ -14,12 +14,12 @@ interface WorkspaceService {
     @GET("boss/workspaces")
     fun workspaceListLook() : Call<WorkspaceListLookResponseData>
 
-    // 나의 워크스페이스 요약 리스트 조회 => 아직
+    // 나의 워크스페이스 요약 리스트 조회
     @GET("boss/workspaces/brief")
     fun workspaceBriefListLook() : Call<WorkspaceBriefListLookResponseData>
     // 해당 워크스페이스 정보 상세 조회 => 안해도 될듯..?
 
-    // 해당 워크스페이스 내 알바 정보 리스트 조회 => 아직
+    // 해당 워크스페이스 내 알바 정보 리스트 조회
     @GET("boss/workspaces/{workspaceId}/staffs")
     fun workspaceStaffListLook(@Path("workspaceId") workspaceId: Long) : Call<WorkspaceStaffListLookResponseData>
 

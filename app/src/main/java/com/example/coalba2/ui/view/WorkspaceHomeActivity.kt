@@ -37,7 +37,7 @@ class WorkspaceHomeActivity : AppCompatActivity() {
         mBinding = ActivityWorkspaceHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // todo : 나의 워크스페이스 요약 리스트 조회 서버 연동
+        // 나의 워크스페이스 요약 리스트 조회 서버 연동
         RetrofitManager.workspaceService?.workspaceBriefListLook()?.enqueue(object:
             Callback<WorkspaceBriefListLookResponseData> {
             override fun onResponse(
