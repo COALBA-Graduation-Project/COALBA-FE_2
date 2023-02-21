@@ -22,6 +22,7 @@ class PartTimeJobManageActivity : AppCompatActivity() {
     private var mBinding: ActivityPartTimeJobManageBinding? = null
     // 매번 null 체크를 할 필요없이 편의성을 위해 바인딩 변수 재선언
     private val binding get() = mBinding!!
+    var storeId: Long = 0
 
     lateinit var partTimeJobManageAdapter: PartTimeJobManageAdapter
     val datas = mutableListOf<PartTimeManageData>()
@@ -33,13 +34,15 @@ class PartTimeJobManageActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.ivParttimeManagePlus.setOnClickListener {
             val intent = Intent(this, PartTimeJobAddActivity::class.java)
+            intent.putExtra("storeId", storeId)
             startActivity(intent)
         }
         binding.ivParttimeManageBack.setOnClickListener {
             finish()
         }
-        // todo : 해당 워크스페이스 내 알바 정보 리스트 조회 서버 연동
-        RetrofitManager.workspaceService?.workspaceStaffListLook(intent.getLongExtra("storeId", 0))?.enqueue(object:
+        // 해당 워크스페이스 내 알바 정보 리스트 조회 서버 연동
+        storeId = intent.getLongExtra("storeId", 0)
+        RetrofitManager.workspaceService?.workspaceStaffListLook(storeId)?.enqueue(object:
             Callback<WorkspaceStaffListLookResponseData> {
             override fun onResponse(
                 call: Call<WorkspaceStaffListLookResponseData>,
@@ -47,7 +50,7 @@ class PartTimeJobManageActivity : AppCompatActivity() {
             ) {
                 if(response.isSuccessful){
                     Log.d("Network_WorkspaceStaffListLook", "success")
-                    Log.d("Network_WorkspaceStaffListLook_data", intent.getLongExtra("storeId", 0).toString())
+                    Log.d("Network_WorkspaceStaffListLook_data", storeId.toString())
                     val data = response.body()
                     val num = data!!.staffInfoList.count()
                     Log.d("num 값", "num 값 " + num)

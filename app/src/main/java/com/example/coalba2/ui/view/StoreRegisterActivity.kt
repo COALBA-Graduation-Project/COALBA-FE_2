@@ -34,6 +34,8 @@ class StoreRegisterActivity : AppCompatActivity() {
     private val binding get() = mBinding!!
     var imageFile : File? = null
     var imageWideUri: Uri? = null
+    var storeRegister: String = ""
+    var storeRegisterPayment: String = ""
 
     companion object {
         // 갤러리 권한 요청
@@ -72,6 +74,19 @@ class StoreRegisterActivity : AppCompatActivity() {
         binding.ivStoreRegisterBack.setOnClickListener {
             finish()
         }
+        binding.rgStoreRegister.setOnCheckedChangeListener { radioGroup, i ->
+            when(i){
+                R.id.rb_fix -> storeRegister = "FIXED_WORK"
+                R.id.rb_weekly -> storeRegister = "WEEKLY_WORK"
+                R.id.rb_monthly -> storeRegister = "MONTHLY_WORK"
+            }
+        }
+        binding.rgStoreRegisterPaymentmethod.setOnCheckedChangeListener { radioGroup, i ->
+            when(i){
+                R.id.rb_weeklywage -> storeRegisterPayment = "WEEKLY_PAY"
+                R.id.rb_monthlywage -> storeRegisterPayment = "MONTHLY_PAY"
+            }
+        }
         // 워크스페이스 추가 서버 연동
         binding.btnStoreRegisterFinish.setOnClickListener {
             Log.d("storeRegister", "시작")
@@ -87,22 +102,8 @@ class StoreRegisterActivity : AppCompatActivity() {
             jsonObj.put("phoneNumber", binding.etStoreRegisterPhonenumber.text)
             jsonObj.put("address", binding.etStoreRegisterAddress.text)
             jsonObj.put("businessNumber", binding.etStoreRegisterNumber.text)
-            jsonObj.put("workType", "MONTHLY_WORK")
-            jsonObj.put("payType", "MONTHLY_PAY")
-            /*
-            binding.rgStoreRegister.setOnCheckedChangeListener { radioGroup, i ->
-                when(i){
-                    R.id.rb_fix -> jsonObj.put("workType", "FIXED_WORK")
-                    R.id.rb_weekly -> jsonObj.put("workType", "WEEKLY_WORK")
-                    R.id.rb_monthly -> jsonObj.put("workType", "MONTHLY_WORK")
-                }
-            }
-            binding.rgStoreRegisterPaymentmethod.setOnCheckedChangeListener { radioGroup, i ->
-                when(i){
-                    R.id.rb_weeklywage -> jsonObj.put("payType", "WEEKLY_PAY")
-                    R.id.rb_monthlywage -> jsonObj.put("payType", "MONTHLY_PAY")
-                }
-            }*/
+            jsonObj.put("workType", storeRegister)
+            jsonObj.put("payType", storeRegisterPayment)
             val body2 = RequestBody.create("application/json".toMediaTypeOrNull(), jsonObj.toString())
             Log.d("Network_WorkspaceAdd_data", body2.toString())
             // 현재 사용자의 정보를 받아올 것을 명시
