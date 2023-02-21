@@ -1,6 +1,7 @@
 package com.example.coalba2.api.service
 
 import com.example.coalba2.data.response.WorkspaceBriefListLookResponseData
+import com.example.coalba2.data.response.WorkspaceDetailResponseData
 import com.example.coalba2.data.response.WorkspaceListLookResponseData
 import com.example.coalba2.data.response.WorkspaceStaffListLookResponseData
 import okhttp3.MultipartBody
@@ -17,8 +18,10 @@ interface WorkspaceService {
     // 나의 워크스페이스 요약 리스트 조회
     @GET("boss/workspaces/brief")
     fun workspaceBriefListLook() : Call<WorkspaceBriefListLookResponseData>
-    // 해당 워크스페이스 정보 상세 조회 => 아직 (워크스페이스 수정 화면에서 사용)
 
+    // 해당 워크스페이스 정보 상세 조회
+    @GET("boss/workspaces/{workspaceId}")
+    fun workspaceDetail(@Path("workspaceId") workspaceId: Long) : Call<WorkspaceDetailResponseData>
 
     // 해당 워크스페이스 내 알바 정보 리스트 조회
     @GET("boss/workspaces/{workspaceId}/staffs")
@@ -32,4 +35,9 @@ interface WorkspaceService {
     // 해당 워크스페이스에 알바 추가
     @POST("boss/workspaces/{workspaceId}/staffs")
     fun workspaceStaffAdd(@Path("workspaceId") workspaceId: Long, @Query("email") email: String): Call<Void>
+
+    // 해당 워크스페이스 정보 수정
+    @Multipart
+    @PUT("boss/workspaces/{workspaceId}")
+    fun workspaceEdit(@Path("workspaceId") workspaceId: Long, @Part("workspace") WorkspaceEditData: RequestBody, @Part imageFile: MultipartBody.Part) : Call<Void>
 }
