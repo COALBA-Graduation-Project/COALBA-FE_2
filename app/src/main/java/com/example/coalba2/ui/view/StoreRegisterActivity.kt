@@ -8,13 +8,23 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
+import android.widget.RadioGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.coalba2.R
+import com.example.coalba2.api.retrofit.RetrofitManager
 import com.example.coalba2.databinding.ActivityStoreRegisterBinding
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.File
 
 class StoreRegisterActivity : AppCompatActivity() {
@@ -23,9 +33,11 @@ class StoreRegisterActivity : AppCompatActivity() {
     // 매번 null 체크를 할 필요없이 편의성을 위해 바인딩 변수 재선언
     private val binding get() = mBinding!!
     var imageFile : File? = null
+    var imageWideUri: Uri? = null
+    var storeRegister: String = ""
+    var storeRegisterPayment: String = ""
 
     companion object {
-        const val REVIEW_MIN_LENGTH = 10
         // 갤러리 권한 요청
         const val REQ_GALLERY = 1
     }
@@ -36,9 +48,10 @@ class StoreRegisterActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK){
             // 이미지를 받으면 ImageView에 적용
             val imageUri = result.data?.data
+            imageWideUri = imageUri
             imageUri?.let{
                 // 서버 업로드를 위해 파일 형태로 변환
-                imageFile = File(getRealPathFromURI(it))
+                // imageFile = File(getRealPathFromURI(it))
 
                 // 이미지를 불러온다
                 Glide.with(this)
@@ -60,6 +73,65 @@ class StoreRegisterActivity : AppCompatActivity() {
         }
         binding.ivStoreRegisterBack.setOnClickListener {
             finish()
+        }
+        binding.rgStoreRegister.setOnCheckedChangeListener { radioGroup, i ->
+            when(i){
+                R.id.rb_fix -> storeRegister = "FIXED_WORK"
+                R.id.rb_weekly -> storeRegister = "WEEKLY_WORK"
+                R.id.rb_monthly -> storeRegister = "MONTHLY_WORK"
+            }
+        }
+        binding.rgStoreRegisterPaymentmethod.setOnCheckedChangeListener { radioGroup, i ->
+            when(i){
+                R.id.rb_weeklywage -> storeRegisterPayment = "WEEKLY_PAY"
+                R.id.rb_monthlywage -> storeRegisterPayment = "MONTHLY_PAY"
+            }
+        }
+        // 워크스페이스 추가 서버 연동
+        binding.btnStoreRegisterFinish.setOnClickListener {
+            Log.d("storeRegister", "시작")
+            Log.d("datavalue", "multipart값=> " + imageWideUri)
+            imageFile = File(getRealPathFromURI(imageWideUri!!))
+            // 서버로 보내기 위해 RequestBody객체로 변환
+            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), imageFile!!)
+            val body =
+                MultipartBody.Part.createFormData("imageFile", imageFile!!.name, requestFile)
+            // String 값에 "" 없애기
+            val jsonObj = JSONObject()
+            jsonObj.put("name", binding.etStoreRegisterName.text)
+            jsonObj.put("phoneNumber", binding.etStoreRegisterPhonenumber.text)
+            jsonObj.put("address", binding.etStoreRegisterAddress.text)
+            jsonObj.put("businessNumber", binding.etStoreRegisterNumber.text)
+            jsonObj.put("workType", storeRegister)
+            jsonObj.put("payType", storeRegisterPayment)
+            val body2 = RequestBody.create("application/json".toMediaTypeOrNull(), jsonObj.toString())
+            Log.d("Network_WorkspaceAdd_data", body2.toString())
+            // 현재 사용자의 정보를 받아올 것을 명시
+            // 서버 통신은 I/O 작업이므로 비동기적으로 받아올 Callback 내부 코드는 나중에 데이터를 받아오고 실행
+            RetrofitManager.workspaceService?.workspaceAdd(body2,body)?.enqueue(object :
+                Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    // 네트워크 통신에 성공한 경우
+                    if (response.isSuccessful) {
+                        Log.d("Network_WorkspaceAdd", "success")
+                        val data = response.body()
+                        Log.d("responsevalue", "response값=> " + data)
+                        // todo: 메인화면 ..? workspacefragment 화면으로 바꿔야 하는데 수정 필요!!!
+                        val intent = Intent(this@StoreRegisterActivity, MainActivity::class.java)
+                        startActivity(intent)
+                    }else { // 이곳은 에러 발생할 경우 실행됨
+                        val data1 = response.code()
+                        Log.d("status code", data1.toString())
+                        val data2 = response.headers()
+                        Log.d("header", data2.toString())
+                        Log.d("server err", response.errorBody()?.string().toString())
+                        Log.d("Network_WorkspaceAdd", "fail")
+                    }
+                }
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Log.d("Network_WorkspaceAdd", "error!")
+                }
+            })
         }
     }
     // 이미지 실제 경로 반환

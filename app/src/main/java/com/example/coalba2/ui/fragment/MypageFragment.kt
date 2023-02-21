@@ -42,6 +42,7 @@ class MypageFragment : Fragment() {
         }
         binding.btnMypageStore.setOnClickListener {
             val intent = Intent(requireContext(), StoreEditActivity::class.java)
+            intent.putExtra("prevImageUrl", sendData)
             startActivity(intent)
         }
         binding.tvMypageManage2.setOnClickListener {

@@ -2,16 +2,24 @@ package com.example.coalba2.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.example.coalba2.R
+import com.example.coalba2.api.retrofit.RetrofitManager
+import com.example.coalba2.data.response.ProfileLookResponseData
 import com.example.coalba2.data.response.StoreListData
+import com.example.coalba2.data.response.WorkspaceListLookResponseData
 import com.example.coalba2.databinding.FragmentWorkspaceBinding
 import com.example.coalba2.ui.adapter.StoreListAdapter
 import com.example.coalba2.ui.view.StoreEditActivity
 import com.example.coalba2.ui.view.StoreRegisterActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class WorkspaceFragment : Fragment() {
 
@@ -24,7 +32,6 @@ class WorkspaceFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentWorkspaceBinding.inflate(inflater, container, false)
-        initRecycler()
         return binding.root
     }
 
@@ -33,19 +40,39 @@ class WorkspaceFragment : Fragment() {
             val intent = Intent(requireContext(), StoreRegisterActivity::class.java)
             startActivity(intent)
         }
+
+        // 나의 워크스페이스 리스트 조회 서버 연동
+        RetrofitManager.workspaceService?.workspaceListLook()?.enqueue(object:
+            Callback<WorkspaceListLookResponseData> {
+            override fun onResponse(
+                call: Call<WorkspaceListLookResponseData>,
+                response: Response<WorkspaceListLookResponseData>
+            ) {
+                if(response.isSuccessful){
+                    Log.d("Network_WorkspaceListLook", "success")
+                    val data = response.body()
+                    val num = data!!.workspaceList.count()
+                    Log.d("num 값", "num 값 " + num)
+                    storeListAdapter = StoreListAdapter(requireContext())
+                    binding.rvStorelist.adapter = storeListAdapter
+
+                    for(i in 0..num-1){
+                        val itemdata = response.body()?.workspaceList?.get(i)
+                        Log.d("responsevalue", "itemdata1_response 값 => "+ itemdata)
+                        datas.add(StoreListData(itemdata!!.imageUrl, itemdata!!.name))
+                    }
+                    storeListAdapter.datas=datas
+                    storeListAdapter.notifyDataSetChanged()
+
+                }else{
+                    // 이곳은 에러 발생할 경우 실행됨
+                    Log.d("Network_WorkspaceListLook", "fail")
+                }
+            }
+            override fun onFailure(call: Call<WorkspaceListLookResponseData>, t: Throwable) {
+                Log.d("Network_WorkspaceListLook", "error")
+            }
+        })
         super.onViewCreated(view, savedInstanceState)
-    }
-    private fun initRecycler(){
-        storeListAdapter = StoreListAdapter(requireContext())
-        binding.rvStorelist.adapter = storeListAdapter
-
-        datas.apply{
-            add(StoreListData(img= R.drawable.ic_emptyimg, name = "송이커피 숙대점"))
-            add(StoreListData(img= R.drawable.ic_emptyimg, name = "송이쌀국수 숙대점"))
-            add(StoreListData(img= R.drawable.ic_emptyimg, name = "송이마라탕 숙대점"))
-
-            storeListAdapter.datas=datas
-            storeListAdapter.notifyDataSetChanged()
-        }
     }
 }
