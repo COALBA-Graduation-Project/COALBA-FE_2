@@ -1,60 +1,86 @@
 package com.example.coalba2.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.coalba2.R
+import com.example.coalba2.api.retrofit.RetrofitManager
+import com.example.coalba2.data.response.PartTimeManageData
+import com.example.coalba2.data.response.ProfileLookResponseData
+import com.example.coalba2.data.response.ScheduleMainResponseData
+import com.example.coalba2.data.response.WeekCalendarData
+import com.example.coalba2.databinding.FragmentHomeBinding
+import com.example.coalba2.ui.adapter.WeekCalendarAdapter
+import com.jakewharton.threetenabp.AndroidThreeTen
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter.ofPattern
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    // 전역 변수로 바인딩 객체 선언
+    private var mBinding: FragmentHomeBinding? = null
+    // 매번 null 체크를 할 필요없이 편의성을 위해 바인딩 변수 재선언
+    private val binding get() = mBinding!!
+    lateinit var calendarAdapter: WeekCalendarAdapter
+    private var calendarList = ArrayList<WeekCalendarData>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        // 바인딩
+        mBinding = FragmentHomeBinding.inflate(inflater,container,false)
+        val root: View = binding.root
+        AndroidThreeTen.init(context)
+        return root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        calendarAdapter = WeekCalendarAdapter(calendarList)
+
+        // 홈 달력 정보 조회 서버 연동
+        RetrofitManager.scheduleService?.scheduleMain()?.enqueue(object:
+            Callback<ScheduleMainResponseData> {
+            override fun onResponse(
+                call: Call<ScheduleMainResponseData>,
+                response: Response<ScheduleMainResponseData>
+            ) {
+                if(response.isSuccessful){
+                    Log.d("Network_ScheduleMain", "success")
+                    val data = response.body()
+                    val num = data!!.dateList.count()
+                    Log.d("num 값", "num 값 " + num)
+
+                    for(i in 0..num-1){
+                        val itemdata = response.body()?.dateList?.get(i)
+                        Log.d("responsevalue", "itemdata1_response 값 => "+ itemdata)
+                        if (i == 3){
+                            binding.tvHomeDate.text = itemdata!!.date!!.year.toString() + "년" + itemdata!!.date!!.month.toString() + "월"
+                        }
+                        calendarList.add(WeekCalendarData(itemdata!!.date!!.dayOfWeek, itemdata!!.date!!.day.toString()))
+                    }
+                    binding.rvHomeWeek.adapter = calendarAdapter
+                    binding.rvHomeWeek.layoutManager = GridLayoutManager(context, 7)
+
+                }else{
+                    // 이곳은 에러 발생할 경우 실행됨
+                    Log.d("Network_ScheduleMain", "fail")
                 }
             }
+            override fun onFailure(call: Call<ScheduleMainResponseData>, t: Throwable) {
+                Log.d("Network_ScheduleMain", "error")
+            }
+        })
     }
 }
