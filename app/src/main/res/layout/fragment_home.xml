@@ -9,7 +9,7 @@
     tools:context=".ui.fragment.HomeFragment">
 
     <TextView
-        android:id="@+id/tv_Home_date"
+        android:id="@+id/tv_home_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -20,9 +20,27 @@
         android:textAlignment="center"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_Home_week"
+        android:id="@+id/rv_home_week"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="12dp"
         android:overScrollMode="never"/>
+
+    <ScrollView
+        android:id="@+id/sv_home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/ll_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_home_workspace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

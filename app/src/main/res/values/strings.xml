@@ -17,6 +17,7 @@
     <string name="base_endtime">19:00</string>
     <string name="base_ok">확인</string>
     <string name="base_cancel">취소</string>
+    <string name="base_state">근무중</string>
 
     <!-- BottomNavigation -->
     <string name="bottomnavigation_home">홈</string>

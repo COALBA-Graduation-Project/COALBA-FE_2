@@ -2,6 +2,7 @@ package com.example.coalba2.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coalba2.R
 import com.example.coalba2.data.response.WeekCalendarData
@@ -14,6 +15,17 @@ class WeekCalendarAdapter(private val wcList: List<WeekCalendarData>) : Recycler
         fun bind(item:WeekCalendarData){
             binding.tvDate.text = item.date
             binding.tvDay.text = item.day
+            if (item.status == "BEFORE"){
+                binding.ivStatus.isVisible = true
+            }
+            else if (item.status == "COMPLETE") {
+                binding.ivStatus.isVisible = true
+                binding.ivStatus.setImageResource(R.color.main)
+            }
+            else if (item.status == "INCOMPLETE") {
+                binding.ivStatus.isVisible = true
+                binding.ivStatus.setImageResource(R.color.refuse)
+            }
             val today = binding.tvDate.text.toString()
             // 오늘 날짜
             val now = LocalDate.now().format(ofPattern("d"))

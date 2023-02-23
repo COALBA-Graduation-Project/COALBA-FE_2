@@ -7,7 +7,7 @@ import retrofit2.http.GET
 
 interface ScheduleService {
     // 스케줄 관련 service
-    // 홈 달력 정보 조회 & 오늘 스케줄 조회 => 아직
+    // 홈 달력 정보 조회 & 오늘 스케줄 조회
     @GET("boss/schedules/home")
     fun scheduleMain() : Call<ScheduleMainResponseData>
 }

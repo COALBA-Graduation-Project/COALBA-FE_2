@@ -13,11 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.coalba2.R
 import com.example.coalba2.api.retrofit.RetrofitManager
-import com.example.coalba2.data.response.PartTimeManageData
-import com.example.coalba2.data.response.ProfileLookResponseData
-import com.example.coalba2.data.response.ScheduleMainResponseData
-import com.example.coalba2.data.response.WeekCalendarData
+import com.example.coalba2.data.response.*
 import com.example.coalba2.databinding.FragmentHomeBinding
+import com.example.coalba2.ui.adapter.HomeWorkspaceAdapter
 import com.example.coalba2.ui.adapter.WeekCalendarAdapter
 import com.jakewharton.threetenabp.AndroidThreeTen
 import org.threeten.bp.LocalDate
@@ -33,6 +31,7 @@ class HomeFragment : Fragment() {
     private val binding get() = mBinding!!
     lateinit var calendarAdapter: WeekCalendarAdapter
     private var calendarList = ArrayList<WeekCalendarData>()
+    private var homeWorkspaceList = ArrayList<HomeWorkspaceData>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,10 +67,19 @@ class HomeFragment : Fragment() {
                         if (i == 3){
                             binding.tvHomeDate.text = itemdata!!.date!!.year.toString() + "년" + itemdata!!.date!!.month.toString() + "월"
                         }
-                        calendarList.add(WeekCalendarData(itemdata!!.date!!.dayOfWeek, itemdata!!.date!!.day.toString()))
+                        calendarList.add(WeekCalendarData(itemdata!!.date!!.dayOfWeek, itemdata!!.date!!.day.toString(), itemdata!!.totalScheduleStatus))
                     }
                     binding.rvHomeWeek.adapter = calendarAdapter
                     binding.rvHomeWeek.layoutManager = GridLayoutManager(context, 7)
+
+                    homeWorkspaceList.add(HomeWorkspaceData("✨","송이카페", mutableListOf(
+                        HomeWorkspaceStaffData("13:00","16:00","조예진","근무중")
+                    )))
+                    binding.rvHomeWorkspace.apply {
+                        adapter = HomeWorkspaceAdapter().build(homeWorkspaceList)
+                        layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
+                    }
+
 
                 }else{
                     // 이곳은 에러 발생할 경우 실행됨
