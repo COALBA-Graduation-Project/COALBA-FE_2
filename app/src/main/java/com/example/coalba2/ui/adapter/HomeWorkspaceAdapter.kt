@@ -2,8 +2,8 @@ package com.example.coalba2.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -25,6 +25,15 @@ class HomeWorkspaceAdapter: RecyclerView.Adapter<HomeWorkspaceAdapter.ViewHolder
                 rvHomeWorkspaceStaff.apply {
                     adapter = HomeWorkspaceStaffAdapter().build(item.staffList)
                     layoutManager = LinearLayoutManager(context)
+                }
+
+                ivHomeWorkspaceDropdown.setOnClickListener {
+                    if(rvHomeWorkspaceStaff.getVisibility() == View.INVISIBLE){
+                        rvHomeWorkspaceStaff.visibility = View.VISIBLE
+                    }
+                    else{
+                        rvHomeWorkspaceStaff.visibility = View.INVISIBLE
+                    }
                 }
             }
         }

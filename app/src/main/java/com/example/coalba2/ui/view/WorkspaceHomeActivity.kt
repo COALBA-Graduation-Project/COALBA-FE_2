@@ -4,15 +4,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.coalba2.R
 import com.example.coalba2.api.retrofit.RetrofitManager
-import com.example.coalba2.data.response.ScheduleData
-import com.example.coalba2.data.response.StoreListData
-import com.example.coalba2.data.response.WorkspaceBriefListLookResponseData
-import com.example.coalba2.data.response.WorkspaceListLookResponseData
+import com.example.coalba2.data.response.*
 import com.example.coalba2.databinding.ActivityWorkspaceHomeBinding
+import com.example.coalba2.ui.adapter.HomeWorkspaceAdapter
 import com.example.coalba2.ui.adapter.MonthAdapter
 import com.example.coalba2.ui.adapter.ScheduleAdapter
 import com.example.coalba2.ui.adapter.StoreListAdapter
@@ -66,6 +66,44 @@ class WorkspaceHomeActivity : AppCompatActivity() {
                 Log.d("Network_WorkspaceBriefListLook", "error")
             }
         })
+        // 해당 워크스페이스 홈 달력 정보 조회 서버 연동
+        RetrofitManager.scheduleService?.scheduleCalendar(storeId)?.enqueue(object:
+            Callback<ScheduleCalendarResponseData> {
+            override fun onResponse(
+                call: Call<ScheduleCalendarResponseData>,
+                response: Response<ScheduleCalendarResponseData>
+            ) {
+                if(response.isSuccessful){
+                    Log.d("Network_ScheduleCalendar", "success")
+                    val data = response.body()
+                    Log.d("ScheduleCalendarData", data.toString())
+                    if(data!!.selectedScheduleListOfDay == null){
+                        Toast.makeText(this@WorkspaceHomeActivity, "오늘은 휴무입니다!", Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        val num = data!!.selectedScheduleListOfDay!!.selectedScheduleList.count()
+                        Log.d("num 값", "num 값 " + num)
+
+                        scheduleAdapter = ScheduleAdapter(this@WorkspaceHomeActivity)
+                        binding.rvSchedule.adapter = scheduleAdapter
+
+                        for(i in 0..num-1){
+                            val itemdata = response.body()?.selectedScheduleListOfDay?.selectedScheduleList?.get(i)
+                            Log.d("responsevalue", "itemdata1_response 값 => "+ itemdata)
+                            datas.add(ScheduleData(itemdata!!.worker!!.name, itemdata.scheduleStartTime, itemdata.scheduleEndTime, itemdata.status))
+                        }
+                        scheduleAdapter.datas = datas
+                        scheduleAdapter.notifyDataSetChanged()
+                    }
+                }else{
+                    // 이곳은 에러 발생할 경우 실행됨
+                    Log.d("Network_ScheduleCalendar", "fail")
+                }
+            }
+            override fun onFailure(call: Call<ScheduleCalendarResponseData>, t: Throwable) {
+                Log.d("Network_ScheduleCalendar", "error")
+            }
+        })
 
         // rv_workspacehome_calendar 리사이클러뷰는 각 월을 나타낼 리스트로서 가로로 전환하기 위하여 LinearLayoutManager의 Horizontal 속성을 준다
         val monthListManager= LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
@@ -80,7 +118,6 @@ class WorkspaceHomeActivity : AppCompatActivity() {
         // PagerSnapHelper()를 설정함으로써 한 항목씩 스크롤이 되도록 만들 수 있다.
         val snap = PagerSnapHelper()
         snap.attachToRecyclerView(binding.rvWorkspacehomeCalendar)
-        initRecycler()
 
         val data = intent.getParcelableExtra<StoreListData>("data")
         binding.tvWorkspacehome.text = data!!.name
@@ -100,20 +137,6 @@ class WorkspaceHomeActivity : AppCompatActivity() {
         binding.ivWorkspacehomeMessagebox.setOnClickListener {
             val intent = Intent(this, MessageBoxActivity::class.java)
             startActivity(intent)
-        }
-    }
-
-    // todo : 통신 후 서버에서 넘겨주는 스케줄 상태값이 BEFORE_WORK일 경우에만 ic_delete 이미지가 보여지도록 수정해야 함!
-    private fun initRecycler(){
-        scheduleAdapter = ScheduleAdapter(this)
-        binding.rvSchedule.adapter = scheduleAdapter
-
-        datas.apply {
-            add(ScheduleData(name = "신지연", time = "14:00-19:00"))
-            add(ScheduleData(name = "조예진", time = "15:00-21:00"))
-            add(ScheduleData(name = "김다은", time = "11:00-13:30"))
-            scheduleAdapter.datas = datas
-            scheduleAdapter.notifyDataSetChanged()
         }
     }
 
