@@ -1,13 +1,18 @@
 package com.example.coalba2.ui.adapter
 
+import android.content.Intent
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coalba2.R
+import com.example.coalba2.api.service.DayClick
+import com.example.coalba2.ui.view.WorkspaceHomeActivity
 import kotlinx.android.synthetic.main.item_day.view.*
+import kotlinx.coroutines.NonDisposableHandle.parent
 import java.util.*
 
 // 각 날짜를 표현하는 Grid 타입의 RecyclerView의 Adapter
@@ -22,8 +27,10 @@ class DayAdapter(val tempMonth:Int, val dayList:MutableList<Date>): RecyclerView
     }
 
     override fun onBindViewHolder(holder: DayView, position: Int) {
+
         holder.layout.ll_day.setOnClickListener{
-            Toast.makeText(holder.layout.context, "${dayList[position]}", Toast.LENGTH_SHORT).show()
+            Log.d("Click!!!", dayList[position].date.toString())
+            (holder.layout.context as WorkspaceHomeActivity).dayClick(dayList[position].date.toString())
         }
         holder.layout.tv_day.text = dayList[position].date.toString()
         // 파라미터로 받은 dayList를 이용하여 position%7의 값이 0일 경우 일요일로서 빨강색을, 6일 경우 토요일로서 파랑색의 스타일을 지정
