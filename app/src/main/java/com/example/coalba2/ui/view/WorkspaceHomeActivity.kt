@@ -5,16 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
-import com.example.coalba2.R
 import com.example.coalba2.api.retrofit.RetrofitManager
-import com.example.coalba2.api.service.DayClick
 import com.example.coalba2.data.response.*
 import com.example.coalba2.databinding.ActivityWorkspaceHomeBinding
 import com.example.coalba2.ui.adapter.*
-import com.example.coalba2.ui.fragment.MessageFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,6 +32,9 @@ class WorkspaceHomeActivity : AppCompatActivity() {
         mBinding = ActivityWorkspaceHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val data = intent.getParcelableExtra<StoreListData>("data")
+        binding.tvWorkspacehome.text = data!!.name
+        var workspaceID = data!!.workspaceId
         // 나의 워크스페이스 요약 리스트 조회 서버 연동
         RetrofitManager.workspaceService?.workspaceBriefListLook()?.enqueue(object:
             Callback<WorkspaceBriefListLookResponseData> {
@@ -53,7 +52,8 @@ class WorkspaceHomeActivity : AppCompatActivity() {
                         val itemdata = response.body()?.workspaceList?.get(i)
                         Log.d("responsevalue", "itemdata1_response 값 => "+ itemdata)
                         if (itemdata!!.name == binding.tvWorkspacehome.text){
-                            storeId = itemdata!!.workspaceId
+                            storeId = itemdata.workspaceId
+                            Log.d("Network_ScheduleCalendar", "히이이얍"+ storeId)
                         }
                     }
                 }else{
@@ -65,8 +65,8 @@ class WorkspaceHomeActivity : AppCompatActivity() {
                 Log.d("Network_WorkspaceBriefListLook", "error")
             }
         })
-        // 해당 워크스페이스 홈 달력 정보 조회 서버 연동
-        RetrofitManager.scheduleService?.scheduleCalendar(storeId)?.enqueue(object:
+        // todo : 해당 워크스페이스 홈 달력 정보 조회 서버 연동 => 안됨
+        RetrofitManager.scheduleService?.scheduleCalendar(workspaceID)?.enqueue(object:
             Callback<ScheduleCalendarResponseData> {
             override fun onResponse(
                 call: Call<ScheduleCalendarResponseData>,
@@ -76,18 +76,18 @@ class WorkspaceHomeActivity : AppCompatActivity() {
                     Log.d("Network_ScheduleCalendar", "success")
                     val data = response.body()
                     Log.d("ScheduleCalendarData", data.toString())
-                    if(data!!.selectedScheduleListOfDay == null){
+                    if(data!!.selectedSubPage == null){
                         Toast.makeText(this@WorkspaceHomeActivity, "오늘은 휴무입니다!", Toast.LENGTH_SHORT).show()
                     }
                     else{
-                        val num = data!!.selectedScheduleListOfDay!!.selectedScheduleList.count()
+                        val num = data!!.selectedSubPage!!.selectedScheduleList.count()
                         Log.d("num 값", "num 값 " + num)
 
                         scheduleAdapter = ScheduleAdapter(this@WorkspaceHomeActivity)
                         binding.rvSchedule.adapter = scheduleAdapter
 
                         for(i in 0..num-1){
-                            val itemdata = response.body()?.selectedScheduleListOfDay?.selectedScheduleList?.get(i)
+                            val itemdata = response.body()?.selectedSubPage?.selectedScheduleList?.get(i)
                             Log.d("responsevalue", "itemdata1_response 값 => "+ itemdata)
                             datas.add(ScheduleData(itemdata!!.worker!!.name, itemdata.scheduleStartTime, itemdata.scheduleEndTime, itemdata.status))
                         }
@@ -118,15 +118,13 @@ class WorkspaceHomeActivity : AppCompatActivity() {
         val snap = PagerSnapHelper()
         snap.attachToRecyclerView(binding.rvWorkspacehomeCalendar)
 
-        val data = intent.getParcelableExtra<StoreListData>("data")
-        binding.tvWorkspacehome.text = data!!.name
-
         binding.ivWorkspacehomeBack.setOnClickListener {
             finish()
         }
         binding.ivWorkspacehomeManage.setOnClickListener {
             val intent = Intent(this, PartTimeJobManageActivity::class.java)
             intent.putExtra("storeId", storeId)
+            Log.d("Network", "히얍"+ storeId)
             startActivity(intent)
         }
         binding.ivWorkspacehomeScheduleplus.setOnClickListener {

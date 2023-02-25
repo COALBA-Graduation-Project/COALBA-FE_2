@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coalba2.R
-import com.example.coalba2.api.service.DayClick
 import kotlinx.android.synthetic.main.item_month.view.*
 import java.util.*
 

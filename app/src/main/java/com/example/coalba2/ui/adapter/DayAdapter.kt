@@ -1,18 +1,14 @@
 package com.example.coalba2.ui.adapter
 
-import android.content.Intent
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coalba2.R
-import com.example.coalba2.api.service.DayClick
 import com.example.coalba2.ui.view.WorkspaceHomeActivity
 import kotlinx.android.synthetic.main.item_day.view.*
-import kotlinx.coroutines.NonDisposableHandle.parent
 import java.util.*
 
 // 각 날짜를 표현하는 Grid 타입의 RecyclerView의 Adapter

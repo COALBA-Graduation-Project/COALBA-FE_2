@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class ScheduleMainResponseData(
     @SerializedName("dateList")
     var dateList: List<ScheduleDateListData> = arrayListOf(),
-    @SerializedName("workspaceListOfDate")
-    val workspaceListOfDate: WorkspaceListOfData?
+    @SerializedName("selectedSubPage")
+    val selectedSubPage: WorkspaceListOfData?
 )
 data class ScheduleDateListData(
     @SerializedName("date")
@@ -47,8 +47,8 @@ data class ScheduleWorkspaceListData(
     val name: String,
     @SerializedName("imageUrl")
     val imageUrl: String,
-    @SerializedName("scheduleListOfWorkspace")
-    var scheduleListOfWorkspace: List<ScheduleListOfWorkspaceData> = arrayListOf()
+    @SerializedName("selectedScheduleList")
+    var selectedScheduleList: List<ScheduleListOfWorkspaceData> = arrayListOf()
 )
 data class ScheduleListOfWorkspaceData(
     @SerializedName("scheduleId")

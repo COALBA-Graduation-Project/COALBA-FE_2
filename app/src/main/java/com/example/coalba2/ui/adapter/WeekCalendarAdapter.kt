@@ -1,5 +1,6 @@
 package com.example.coalba2.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -7,13 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.coalba2.R
 import com.example.coalba2.data.response.WeekCalendarData
 import com.example.coalba2.databinding.ItemWeekcalendarBinding
+import com.example.coalba2.ui.fragment.HomeFragment
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter.ofPattern
 
-class WeekCalendarAdapter(private val wcList: List<WeekCalendarData>) : RecyclerView.Adapter<WeekCalendarAdapter.WeekCalendarViewHolder>() {
+class WeekCalendarAdapter(private val wcList: List<WeekCalendarData>, private val homeDayClickListener: HomeDayClickListener) : RecyclerView.Adapter<WeekCalendarAdapter.WeekCalendarViewHolder>() {
     class WeekCalendarViewHolder(private val binding: ItemWeekcalendarBinding): RecyclerView.ViewHolder(binding.root) {
+
         fun bind(item:WeekCalendarData){
-            binding.tvDate.text = item.date
+            binding.tvDate.text = item.date.toString()
             binding.tvDay.text = item.day
             if (item.status == "BEFORE"){
                 binding.ivStatus.isVisible = true
@@ -42,6 +45,13 @@ class WeekCalendarAdapter(private val wcList: List<WeekCalendarData>) : Recycler
     }
     override fun onBindViewHolder(holder: WeekCalendarViewHolder, position: Int) {
         holder.bind(wcList[position])
+        holder.itemView.setOnClickListener {
+            homeDayClickListener.click(wcList[position].year, wcList[position].month,wcList[position].date)
+        }
     }
     override fun getItemCount() = wcList.size
+
+    interface HomeDayClickListener{
+        fun click(year: Int, month: Int, day: Int)
+    }
 }

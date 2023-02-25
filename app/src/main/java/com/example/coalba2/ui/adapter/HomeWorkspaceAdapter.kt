@@ -27,6 +27,7 @@ class HomeWorkspaceAdapter: RecyclerView.Adapter<HomeWorkspaceAdapter.ViewHolder
                     layoutManager = LinearLayoutManager(context)
                 }
 
+                /*
                 ivHomeWorkspaceDropdown.setOnClickListener {
                     if(rvHomeWorkspaceStaff.getVisibility() == View.INVISIBLE){
                         rvHomeWorkspaceStaff.visibility = View.VISIBLE
@@ -34,7 +35,7 @@ class HomeWorkspaceAdapter: RecyclerView.Adapter<HomeWorkspaceAdapter.ViewHolder
                     else{
                         rvHomeWorkspaceStaff.visibility = View.INVISIBLE
                     }
-                }
+                }*/
             }
         }
     }

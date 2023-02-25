@@ -11,8 +11,8 @@ data class ScheduleCalendarResponseData(
     val month: Int,
     @SerializedName("dateList")
     var dateList: List<WorkspaceDateListData> = arrayListOf(),
-    @SerializedName("selectedScheduleListOfDay")
-    val selectedScheduleListOfDay: SelectedScheduleListOfDayData?
+    @SerializedName("selectedSubPage")
+    val selectedSubPage: SelectedScheduleListOfDayData?
 )
 data class SelectedWorkspaceData(
     @SerializedName("workspaceId")
