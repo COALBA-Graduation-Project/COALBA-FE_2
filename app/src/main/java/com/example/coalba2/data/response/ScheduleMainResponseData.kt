@@ -5,10 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class ScheduleMainResponseData(
     @SerializedName("dateList")
     var dateList: List<ScheduleDateListData> = arrayListOf(),
-    @SerializedName("selectedDate")
-    val selectedDate: SelectedDateData?,
-    @SerializedName("workspaceList")
-    var workspaceList: List<ScheduleWorkspaceListData> = arrayListOf()
+    @SerializedName("workspaceListOfDate")
+    val workspaceListOfDate: WorkspaceListOfData?
 )
 data class ScheduleDateListData(
     @SerializedName("date")
@@ -26,6 +24,12 @@ data class DateData(
     @SerializedName("dayOfWeek")
     val dayOfWeek: String
 )
+data class WorkspaceListOfData(
+    @SerializedName("selectedDate")
+    val selectedDate: SelectedDateData?,
+    @SerializedName("workspaceList")
+    var workspaceList: List<ScheduleWorkspaceListData> = arrayListOf()
+)
 data class SelectedDateData(
     @SerializedName("year")
     val year: Int,
@@ -39,6 +43,32 @@ data class SelectedDateData(
 data class ScheduleWorkspaceListData(
     @SerializedName("workspaceId")
     val workspaceId: Long,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("imageUrl")
+    val imageUrl: String,
+    @SerializedName("scheduleListOfWorkspace")
+    var scheduleListOfWorkspace: List<ScheduleListOfWorkspaceData> = arrayListOf()
+)
+data class ScheduleListOfWorkspaceData(
+    @SerializedName("scheduleId")
+    val scheduleId: Long,
+    @SerializedName("scheduleStartTime")
+    val scheduleStartTime: String,
+    @SerializedName("scheduleEndTime")
+    val scheduleEndTime: String,
+    @SerializedName("logicalStartTime")
+    val logicalStartTime: String,
+    @SerializedName("logicalEndTime")
+    val logicalEndTime: String,
+    @SerializedName("status")
+    val status: String,
+    @SerializedName("worker")
+    val worker: WorkerScheduleData?
+)
+data class WorkerScheduleData(
+    @SerializedName("workerId")
+    val workerId: Long,
     @SerializedName("name")
     val name: String,
     @SerializedName("imageUrl")

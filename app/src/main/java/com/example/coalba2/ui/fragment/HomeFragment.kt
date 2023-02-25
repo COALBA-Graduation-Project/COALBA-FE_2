@@ -60,7 +60,6 @@ class HomeFragment : Fragment() {
                     val data = response.body()
                     val num = data!!.dateList.count()
                     Log.d("num 값", "num 값 " + num)
-
                     for(i in 0..num-1){
                         val itemdata = response.body()?.dateList?.get(i)
                         Log.d("responsevalue", "itemdata1_response 값 => "+ itemdata)
@@ -72,15 +71,35 @@ class HomeFragment : Fragment() {
                     binding.rvHomeWeek.adapter = calendarAdapter
                     binding.rvHomeWeek.layoutManager = GridLayoutManager(context, 7)
 
-                    homeWorkspaceList.add(HomeWorkspaceData("✨","송이카페", mutableListOf(
-                        HomeWorkspaceStaffData("13:00","16:00","조예진","근무중")
-                    )))
+                    val num2 = data.workspaceListOfDate!!.workspaceList.count()
+                    Log.d("num 값", "num 값 " + num2)
+                    for(i in 0..num2-1){
+                        val itemdata2 = response.body()?.workspaceListOfDate?.workspaceList?.get(i)
+                        Log.d("responsevalue", "workspace response 값 => "+ itemdata2)
+
+
+                        val num3 = itemdata2?.scheduleListOfWorkspace!!.count()
+                        Log.d("num 값", "num 값 " + num3)
+                        if (num3 == 0){
+                            homeWorkspaceList.add(HomeWorkspaceData(itemdata2.imageUrl, itemdata2.name, mutableListOf(
+                                HomeWorkspaceStaffData("12:00","17:00","조예진", "근무중")
+                            )))
+                        }
+                        else{
+                            for(j in 0..num3-1) {
+                                val itemdata3 = itemdata2.scheduleListOfWorkspace.get(j)
+                                Log.d("responsevalue", "schedule response 값 => " + itemdata3)
+
+                                homeWorkspaceList.add(HomeWorkspaceData(itemdata2.imageUrl,itemdata2.name, mutableListOf(
+                                    HomeWorkspaceStaffData(itemdata3.scheduleStartTime,itemdata3.scheduleEndTime,itemdata3.worker!!.name,itemdata3.status)
+                                )))
+                            }
+                        }
+                    }
                     binding.rvHomeWorkspace.apply {
                         adapter = HomeWorkspaceAdapter().build(homeWorkspaceList)
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
                     }
-
-
                 }else{
                     // 이곳은 에러 발생할 경우 실행됨
                     Log.d("Network_ScheduleMain", "fail")
