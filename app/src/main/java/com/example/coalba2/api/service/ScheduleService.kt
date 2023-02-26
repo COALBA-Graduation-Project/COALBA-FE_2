@@ -1,7 +1,9 @@
 package com.example.coalba2.api.service
 
+import com.example.coalba2.data.request.ScheduleAddData
 import com.example.coalba2.data.response.*
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -24,7 +26,11 @@ interface ScheduleService {
     @GET("boss/schedules/selected")
     fun scheduleEachWorkspaceSchedule(@Query("workspaceId") workspaceId: Long, @Query("year") year: Int, @Query("month") month: Int, @Query("day") day: Int) : Call<ScheduleEachWorkspaceScheduleResponseData>
 
+    // 해당 날짜에 근무 가능한 해당 워크스페이스 내 알바 리스트 조회 (for 스케줄 추가)
+    @GET("boss/schedules/possible/staffs")
+    fun schedulePossible(@Query("workspaceId") workspaceId: Long, @Query("start") start: String, @Query("end") end: String) : Call<SchedulePossibleResponseData>
+
     // 스케줄 생성 => 아직
     @POST("boss/schedules")
-    fun scheduleAdd() : Call<Void>
+    fun scheduleAdd(@Body data : ScheduleAddData) : Call<Void>
 }

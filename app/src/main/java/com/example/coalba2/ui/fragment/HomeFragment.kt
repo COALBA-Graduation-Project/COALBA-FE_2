@@ -108,7 +108,6 @@ class HomeFragment : Fragment() {
                     }
                 })
             }
-
         })
 
         // 홈 달력 정보 조회 서버 연동

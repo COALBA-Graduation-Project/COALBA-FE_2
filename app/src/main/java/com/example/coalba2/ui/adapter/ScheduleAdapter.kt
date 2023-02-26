@@ -30,7 +30,6 @@ class ScheduleAdapter(private val context: Context) : RecyclerView.Adapter<Sched
             binding.tvScheduleName.text = item.name
             binding.tvScheduleStarttime.text = item.starttime
             binding.tvScheduleEndtime.text = item.endtime
-            // todo : status값이 BEFORE_WORK일 경우에만 ic_delete 이미지가 보여지는거 확인해야함!
             if (item.status == "BEFORE_WORK"){
                 binding.ivScheduleDelete.visibility = View.VISIBLE
             }

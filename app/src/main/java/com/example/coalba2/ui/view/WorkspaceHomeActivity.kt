@@ -65,7 +65,7 @@ class WorkspaceHomeActivity : AppCompatActivity() {
                 Log.d("Network_WorkspaceBriefListLook", "error")
             }
         })
-        // todo : 해당 워크스페이스 홈 달력 정보 조회 서버 연동 => 안됨
+        // 해당 워크스페이스 홈 달력 정보 조회 서버 연동
         RetrofitManager.scheduleService?.scheduleCalendar(workspaceID)?.enqueue(object:
             Callback<ScheduleCalendarResponseData> {
             override fun onResponse(
@@ -124,11 +124,11 @@ class WorkspaceHomeActivity : AppCompatActivity() {
         binding.ivWorkspacehomeManage.setOnClickListener {
             val intent = Intent(this, PartTimeJobManageActivity::class.java)
             intent.putExtra("storeId", storeId)
-            Log.d("Network", "히얍"+ storeId)
             startActivity(intent)
         }
         binding.ivWorkspacehomeScheduleplus.setOnClickListener {
             val intent = Intent(this, ScheduleAddActivity::class.java)
+            intent.putExtra("storeId", storeId)
             startActivity(intent)
         }
         binding.ivWorkspacehomeMessagebox.setOnClickListener {

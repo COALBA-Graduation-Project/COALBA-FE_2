@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.coalba2.R
 import com.example.coalba2.data.response.ScheduleAddPersonData
 
-class ScheduleAddAdapter(private val context: Context): RecyclerView.Adapter<ScheduleAddAdapter.ViewHolder>() {
+class ScheduleAddAdapter(private val context: Context, private val possiblePersonListener: PossiblePersonListener): RecyclerView.Adapter<ScheduleAddAdapter.ViewHolder>() {
     var datas = mutableListOf<ScheduleAddPersonData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder{
@@ -23,6 +23,9 @@ class ScheduleAddAdapter(private val context: Context): RecyclerView.Adapter<Sch
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(datas[position])
+        holder.itemView.setOnClickListener {
+            possiblePersonListener.click(datas[position].staffId, datas[position].name)
+        }
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
@@ -32,6 +35,10 @@ class ScheduleAddAdapter(private val context: Context): RecyclerView.Adapter<Sch
         fun bind(item: ScheduleAddPersonData) {
             Glide.with(itemView).load(item.img).into(imgProfile)
             txtName.text = item.name
+
         }
+    }
+    interface PossiblePersonListener{
+        fun click(staffId: Long, name: String)
     }
 }
