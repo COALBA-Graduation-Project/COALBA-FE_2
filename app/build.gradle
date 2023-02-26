@@ -76,4 +76,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     // reflect
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.7.20"
+    // Localdate
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.3.0'
+    // cardview
+    implementation 'androidx.cardview:cardview:1.0.0'
 }

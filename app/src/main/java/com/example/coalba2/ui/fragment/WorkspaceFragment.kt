@@ -59,7 +59,7 @@ class WorkspaceFragment : Fragment() {
                     for(i in 0..num-1){
                         val itemdata = response.body()?.workspaceList?.get(i)
                         Log.d("responsevalue", "itemdata1_response 값 => "+ itemdata)
-                        datas.add(StoreListData(itemdata!!.imageUrl, itemdata!!.name))
+                        datas.add(StoreListData(itemdata!!.workspaceId,itemdata!!.imageUrl, itemdata!!.name))
                     }
                     storeListAdapter.datas=datas
                     storeListAdapter.notifyDataSetChanged()

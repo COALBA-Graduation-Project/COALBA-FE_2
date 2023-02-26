@@ -1,25 +1,24 @@
 package com.example.coalba2.ui.view
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
-import com.example.coalba2.R
 import com.example.coalba2.api.retrofit.RetrofitManager
-import com.example.coalba2.data.response.ScheduleData
-import com.example.coalba2.data.response.StoreListData
-import com.example.coalba2.data.response.WorkspaceBriefListLookResponseData
-import com.example.coalba2.data.response.WorkspaceListLookResponseData
+import com.example.coalba2.data.response.*
 import com.example.coalba2.databinding.ActivityWorkspaceHomeBinding
-import com.example.coalba2.ui.adapter.MonthAdapter
-import com.example.coalba2.ui.adapter.ScheduleAdapter
-import com.example.coalba2.ui.adapter.StoreListAdapter
-import com.example.coalba2.ui.fragment.MessageFragment
+import com.example.coalba2.ui.adapter.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.Calendar
 
 class WorkspaceHomeActivity : AppCompatActivity() {
     // 전역 변수로 바인딩 객체 선언
@@ -30,12 +29,71 @@ class WorkspaceHomeActivity : AppCompatActivity() {
     lateinit var scheduleAdapter: ScheduleAdapter
     val datas = mutableListOf<ScheduleData>()
     var storeId: Long = 0
+    var sId: Long = 0
+    var pos: Int = 0
+
+    // 삭제 다이얼로그
+    val positiveButtonClick = { dialogInterface: DialogInterface, i: Int ->
+        // 해당 스케줄 삭제 서버 연동
+        RetrofitManager.scheduleService?.scheduleDelete(sId)?.enqueue(object :
+            Callback<Void> {
+            override fun onResponse(
+                call: Call<Void>,
+                response: Response<Void>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d("ScheduleDelete", "success")
+                    datas.removeAt(pos)
+                    scheduleAdapter.notifyDataSetChanged()
+                } else {
+                    // 이곳은 에러 발생할 경우 실행됨
+                    Log.d("ScheduleDelete", "fail")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.d("ScheduleDelete", "error")
+            }
+        })
+
+        Toast.makeText(this@WorkspaceHomeActivity, "확인", Toast.LENGTH_SHORT).show()
+    }
+    val negativeButtonClick = { dialogInterface: DialogInterface, i: Int ->
+        Toast.makeText(this@WorkspaceHomeActivity, "취소", Toast.LENGTH_SHORT).show()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 바인딩
         mBinding = ActivityWorkspaceHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val data = intent.getParcelableExtra<StoreListData>("data")
+        binding.tvWorkspacehome.text = data!!.name
+        var workspaceID = data!!.workspaceId
+
+        scheduleAdapter = ScheduleAdapter(this@WorkspaceHomeActivity, object : ScheduleAdapter.ScheduleDeleteListener{
+            // 삭제 버튼 누를 시에 삭제 다이얼로그 창 띄우기
+            override fun click(scheduleId: Long, position: Int) {
+                val builder = AlertDialog.Builder(this@WorkspaceHomeActivity)
+                builder.setTitle("정말 삭제하시겠습니까?")
+                    .setMessage("해당 스케줄을 삭제합니다.")
+                    .setPositiveButton("확인",positiveButtonClick)
+                    .setNegativeButton("취소", negativeButtonClick)
+                val alertDialog = builder.create()
+                alertDialog.show()
+                sId = scheduleId
+                pos = position
+                val button1 = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE)
+                with(button1){
+                    setTextColor(Color.RED)
+                }
+                val button2 = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE)
+                with(button2){
+                    setTextColor(Color.BLUE)
+                }
+            }
+        })
 
         // 나의 워크스페이스 요약 리스트 조회 서버 연동
         RetrofitManager.workspaceService?.workspaceBriefListLook()?.enqueue(object:
@@ -54,7 +112,8 @@ class WorkspaceHomeActivity : AppCompatActivity() {
                         val itemdata = response.body()?.workspaceList?.get(i)
                         Log.d("responsevalue", "itemdata1_response 값 => "+ itemdata)
                         if (itemdata!!.name == binding.tvWorkspacehome.text){
-                            storeId = itemdata!!.workspaceId
+                            storeId = itemdata.workspaceId
+                            Log.d("Network_ScheduleCalendar", "히이이얍"+ storeId)
                         }
                     }
                 }else{
@@ -64,6 +123,42 @@ class WorkspaceHomeActivity : AppCompatActivity() {
             }
             override fun onFailure(call: Call<WorkspaceBriefListLookResponseData>, t: Throwable) {
                 Log.d("Network_WorkspaceBriefListLook", "error")
+            }
+        })
+        // 해당 워크스페이스 홈 달력 정보 조회 서버 연동
+        RetrofitManager.scheduleService?.scheduleCalendar(workspaceID)?.enqueue(object:
+            Callback<ScheduleCalendarResponseData> {
+            override fun onResponse(
+                call: Call<ScheduleCalendarResponseData>,
+                response: Response<ScheduleCalendarResponseData>
+            ) {
+                if(response.isSuccessful){
+                    Log.d("Network_ScheduleCalendar", "success")
+                    val data = response.body()
+                    Log.d("ScheduleCalendarData", data.toString())
+                    val num = data!!.selectedSubPage!!.selectedScheduleList.count()
+                    Log.d("num 값", "num 값 " + num)
+                    if(num == 0){
+                        Toast.makeText(this@WorkspaceHomeActivity, "오늘은 휴무입니다!", Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        binding.rvSchedule.adapter = scheduleAdapter
+
+                        for(i in 0..num-1){
+                            val itemdata = response.body()?.selectedSubPage?.selectedScheduleList?.get(i)
+                            Log.d("responsevalue", "itemdata1_response 값 => "+ itemdata)
+                            datas.add(ScheduleData(itemdata!!.scheduleId, itemdata.worker!!.name, itemdata.scheduleStartTime, itemdata.scheduleEndTime, itemdata.status))
+                        }
+                        scheduleAdapter.datas = datas
+                        scheduleAdapter.notifyDataSetChanged()
+                    }
+                }else{
+                    // 이곳은 에러 발생할 경우 실행됨
+                    Log.d("Network_ScheduleCalendar", "fail")
+                }
+            }
+            override fun onFailure(call: Call<ScheduleCalendarResponseData>, t: Throwable) {
+                Log.d("Network_ScheduleCalendar", "error")
             }
         })
 
@@ -80,10 +175,6 @@ class WorkspaceHomeActivity : AppCompatActivity() {
         // PagerSnapHelper()를 설정함으로써 한 항목씩 스크롤이 되도록 만들 수 있다.
         val snap = PagerSnapHelper()
         snap.attachToRecyclerView(binding.rvWorkspacehomeCalendar)
-        initRecycler()
-
-        val data = intent.getParcelableExtra<StoreListData>("data")
-        binding.tvWorkspacehome.text = data!!.name
 
         binding.ivWorkspacehomeBack.setOnClickListener {
             finish()
@@ -95,6 +186,7 @@ class WorkspaceHomeActivity : AppCompatActivity() {
         }
         binding.ivWorkspacehomeScheduleplus.setOnClickListener {
             val intent = Intent(this, ScheduleAddActivity::class.java)
+            intent.putExtra("storeId", storeId)
             startActivity(intent)
         }
         binding.ivWorkspacehomeMessagebox.setOnClickListener {
@@ -103,18 +195,46 @@ class WorkspaceHomeActivity : AppCompatActivity() {
         }
     }
 
-    // todo : 통신 후 서버에서 넘겨주는 스케줄 상태값이 BEFORE_WORK일 경우에만 ic_delete 이미지가 보여지도록 수정해야 함!
-    private fun initRecycler(){
-        scheduleAdapter = ScheduleAdapter(this)
-        binding.rvSchedule.adapter = scheduleAdapter
+    fun dayClick(day: String){
+        // 해당 워크스페이스 홈 해당 날짜 스케줄 조회 서버 연동
+        RetrofitManager.scheduleService?.scheduleEachWorkspaceSchedule(storeId, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH)+1, day.toInt())?.enqueue(object:
+            Callback<ScheduleEachWorkspaceScheduleResponseData> {
+            override fun onResponse(
+                call: Call<ScheduleEachWorkspaceScheduleResponseData>,
+                response: Response<ScheduleEachWorkspaceScheduleResponseData>
+            ) {
+                if(response.isSuccessful){
+                    Log.d("ScheduleCalendarClick", "success")
+                    val data = response.body()
+                    Log.d("ScheduleCalendarData", data.toString())
+                    datas.removeAll(datas)
+                    scheduleAdapter.notifyDataSetChanged()
 
-        datas.apply {
-            add(ScheduleData(name = "신지연", time = "14:00-19:00"))
-            add(ScheduleData(name = "조예진", time = "15:00-21:00"))
-            add(ScheduleData(name = "김다은", time = "11:00-13:30"))
-            scheduleAdapter.datas = datas
-            scheduleAdapter.notifyDataSetChanged()
-        }
+                    val num = data!!.selectedScheduleList.count()
+                    Log.d("num 값", "num 값 " + num)
+                    if(num == 0){
+                        Toast.makeText(this@WorkspaceHomeActivity, "오늘은 휴무입니다!", Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        binding.rvSchedule.adapter = scheduleAdapter
+
+                        for(i in 0..num-1){
+                            val itemdata = response.body()?.selectedScheduleList?.get(i)
+                            Log.d("responsevalue", "itemdata1_response 값 => "+ itemdata)
+                            datas.add(ScheduleData(itemdata!!.scheduleId, itemdata!!.worker!!.name, itemdata.scheduleStartTime, itemdata.scheduleEndTime, itemdata.status))
+                        }
+                        scheduleAdapter.datas = datas
+                        scheduleAdapter.notifyDataSetChanged()
+                    }
+                }else{
+                    // 이곳은 에러 발생할 경우 실행됨
+                    Log.d("ScheduleCalendarClick", "fail")
+                }
+            }
+            override fun onFailure(call: Call<ScheduleEachWorkspaceScheduleResponseData>, t: Throwable) {
+                Log.d("ScheduleCalendarClick", "error")
+            }
+        })
     }
 
     // 액티비티가 파괴될 때..

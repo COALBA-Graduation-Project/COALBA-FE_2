@@ -8,27 +8,37 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coalba2.R
 import com.example.coalba2.data.response.ScheduleData
+import com.example.coalba2.databinding.ItemScheduleBinding
+import com.example.coalba2.databinding.ItemWeekcalendarBinding
 
-class ScheduleAdapter(private val context: Context) : RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
+class ScheduleAdapter(private val context: Context, private val scheduleDeleteListener: ScheduleDeleteListener) : RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
     var datas = mutableListOf<ScheduleData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleAdapter.ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_schedule, parent, false)
-        return ViewHolder(view)
+        val binding = ItemScheduleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun getItemCount(): Int = datas.size
 
     override fun onBindViewHolder(holder: ScheduleAdapter.ViewHolder, position: Int) {
         holder.bind(datas[position])
+        holder.itemView.setOnClickListener {
+            scheduleDeleteListener.click(datas[position].scheduleId, position)
+        }
     }
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
-        private val tvName: TextView = itemView.findViewById(R.id.tv_schedule_name)
-        private val tvTime: TextView = itemView.findViewById(R.id.tv_schedule_time)
+    inner class ViewHolder(private val binding: ItemScheduleBinding) : RecyclerView.ViewHolder(binding.root){
 
         fun bind(item: ScheduleData){
-            tvName.text = item.name
-            tvTime.text = item.time
+            binding.tvScheduleName.text = item.name
+            binding.tvScheduleStarttime.text = item.starttime
+            binding.tvScheduleEndtime.text = item.endtime
+            if (item.status == "BEFORE_WORK"){
+                binding.ivScheduleDelete.visibility = View.VISIBLE
+            }
         }
+    }
+    interface ScheduleDeleteListener{
+        fun click(scheduleId: Long, position: Int)
     }
 }

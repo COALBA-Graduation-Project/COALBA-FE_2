@@ -6,6 +6,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class StoreListData (
+    @SerializedName("workspaceId")
+    val workspaceId : Long,
     @SerializedName("img")
     val img : String,
     @SerializedName("name")
