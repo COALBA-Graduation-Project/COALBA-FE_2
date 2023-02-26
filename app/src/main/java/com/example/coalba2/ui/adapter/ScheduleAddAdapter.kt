@@ -35,7 +35,6 @@ class ScheduleAddAdapter(private val context: Context, private val possiblePerso
         fun bind(item: ScheduleAddPersonData) {
             Glide.with(itemView).load(item.img).into(imgProfile)
             txtName.text = item.name
-
         }
     }
     interface PossiblePersonListener{

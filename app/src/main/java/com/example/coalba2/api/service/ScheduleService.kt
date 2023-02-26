@@ -3,10 +3,7 @@ package com.example.coalba2.api.service
 import com.example.coalba2.data.request.ScheduleAddData
 import com.example.coalba2.data.response.*
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ScheduleService {
     // 스케줄 관련 service
@@ -30,7 +27,11 @@ interface ScheduleService {
     @GET("boss/schedules/possible/staffs")
     fun schedulePossible(@Query("workspaceId") workspaceId: Long, @Query("start") start: String, @Query("end") end: String) : Call<SchedulePossibleResponseData>
 
-    // 스케줄 생성 => 아직
+    // 스케줄 생성
     @POST("boss/schedules")
     fun scheduleAdd(@Body data : ScheduleAddData) : Call<Void>
+
+    // 스케줄 삭제 => 아직
+    @DELETE("boss/schedules/{scheduleId}")
+    fun scheduleDelete(@Path("scheduleId") scheduleId: Long) : Call<Void>
 }

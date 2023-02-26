@@ -11,7 +11,7 @@ import com.example.coalba2.data.response.ScheduleData
 import com.example.coalba2.databinding.ItemScheduleBinding
 import com.example.coalba2.databinding.ItemWeekcalendarBinding
 
-class ScheduleAdapter(private val context: Context) : RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
+class ScheduleAdapter(private val context: Context, private val scheduleDeleteListener: ScheduleDeleteListener) : RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
     var datas = mutableListOf<ScheduleData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleAdapter.ViewHolder {
@@ -23,6 +23,9 @@ class ScheduleAdapter(private val context: Context) : RecyclerView.Adapter<Sched
 
     override fun onBindViewHolder(holder: ScheduleAdapter.ViewHolder, position: Int) {
         holder.bind(datas[position])
+        holder.itemView.setOnClickListener {
+            scheduleDeleteListener.click(datas[position].scheduleId, position)
+        }
     }
     inner class ViewHolder(private val binding: ItemScheduleBinding) : RecyclerView.ViewHolder(binding.root){
 
@@ -34,5 +37,8 @@ class ScheduleAdapter(private val context: Context) : RecyclerView.Adapter<Sched
                 binding.ivScheduleDelete.visibility = View.VISIBLE
             }
         }
+    }
+    interface ScheduleDeleteListener{
+        fun click(scheduleId: Long, position: Int)
     }
 }
