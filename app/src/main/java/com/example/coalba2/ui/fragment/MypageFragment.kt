@@ -15,6 +15,7 @@ import com.example.coalba2.databinding.FragmentMypageBinding
 import com.example.coalba2.ui.view.ProfileEditActivity
 import com.example.coalba2.ui.view.StoreEditActivity
 import com.example.coalba2.ui.view.SubstituteWorkManageActivity
+import com.example.coalba2.ui.view.WorkHistoryActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,6 +48,10 @@ class MypageFragment : Fragment() {
         }
         binding.tvMypageManage2.setOnClickListener {
             val intent = Intent(requireContext(), SubstituteWorkManageActivity::class.java)
+            startActivity(intent)
+        }
+        binding.tvMypageManage1.setOnClickListener {
+            val intent = Intent(requireContext(), WorkHistoryActivity::class.java)
             startActivity(intent)
         }
         // 프로필 조회 서버 연동

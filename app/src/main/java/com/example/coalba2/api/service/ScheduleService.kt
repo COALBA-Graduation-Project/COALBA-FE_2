@@ -31,7 +31,15 @@ interface ScheduleService {
     @POST("boss/schedules")
     fun scheduleAdd(@Body data : ScheduleAddData) : Call<Void>
 
-    // 스케줄 삭제 => 아직
+    // 스케줄 삭제
     @DELETE("boss/schedules/{scheduleId}")
     fun scheduleDelete(@Path("scheduleId") scheduleId: Long) : Call<Void>
+
+    // 근무내역 및 알바비 관리 년월 리스트 조회
+    @GET("boss/schedules/reports/dates")
+    fun workhistoryDate(@Query("workspaceId") workspaceId: Long) : Call<WorkHistoryDateResponseData>
+
+    // 해당 가게, 해당 년월 근무내역 및 알바비 관리 리스트 조회
+    @GET("boss/schedules/reports")
+    fun workhistoryList(@Query("workspaceId") workspaceId: Long, @Query("year") year: Int, @Query("month") month: Int) : Call<WorkHistoryListResponseData>
 }
