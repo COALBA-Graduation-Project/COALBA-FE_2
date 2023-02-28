@@ -26,13 +26,11 @@ class MessageDetailAdapter(private val context: Context): RecyclerView.Adapter<M
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         private val txtState: TextView = itemView.findViewById(R.id.tv_messagedetail_state)
         private val txtDate: TextView = itemView.findViewById(R.id.tv_messagedetail_date)
-        private val txtTime: TextView = itemView.findViewById(R.id.tv_messagedetail_time)
         private val txtContent: TextView = itemView.findViewById(R.id.tv_messagedetail_content)
 
         fun bind(item: MessageDetailData){
             txtState.text = item.state
             txtDate.text = item.date
-            txtTime.text = item.time
             txtContent.text = item.messageContent
             if(txtState.text == "보낸 쪽지"){
                 txtState.setTextColor(getColor(context, R.color.send_message))

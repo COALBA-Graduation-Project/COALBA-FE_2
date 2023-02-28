@@ -6,6 +6,10 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class MessageBoxData(
+    @SerializedName("workspaceId")
+    val workspaceId: Long,
+    @SerializedName("staffId")
+    val staffId: Long,
     @SerializedName("img")
     val img: String,
     @SerializedName("name")

@@ -58,7 +58,12 @@ class MessageBoxActivity : AppCompatActivity() {
                         for(i in 0..num-1){
                             val itemdata = response.body()?.messageBoxList?.get(i)
                             Log.d("responsevalue", "itemdata1_response 값 => "+ itemdata)
-                            datas.add(MessageBoxData(itemdata!!.staff!!.imageUrl, itemdata.staff!!.name, itemdata.latestMessage, itemdata.latestDateTime))
+                            if (itemdata?.latestDateTime == null){
+                                datas.add(MessageBoxData(storeId, itemdata!!.staff!!.staffId, itemdata.staff!!.imageUrl, itemdata.staff!!.name, "", ""))
+                            }
+                            else{
+                                datas.add(MessageBoxData(storeId, itemdata!!.staff!!.staffId, itemdata!!.staff!!.imageUrl, itemdata.staff!!.name, itemdata.latestMessage, itemdata.latestDateTime))
+                            }
                         }
                         messageBoxAdapter.datas = datas
                         messageBoxAdapter.notifyDataSetChanged()

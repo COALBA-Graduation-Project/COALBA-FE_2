@@ -15,7 +15,7 @@ interface MessageService {
     @GET("boss/messages/boxes")
     fun messageBox(@Query("workspaceId") workspaceId: Long) : Call<MessageBoxResponseData>
 
-    // 해당 워크스페이스의 해당 알바 쪽지함 내 메시지 리스트 조회 (최신순) => 아직
+    // 해당 워크스페이스의 해당 알바 쪽지함 내 메시지 리스트 조회 (최신순)
     @GET("boss/messages")
     fun messages(@Query("workspaceId") workspaceId: Long, @Query("staffId") staffId: Long) : Call<MessagesResponseData>
 
