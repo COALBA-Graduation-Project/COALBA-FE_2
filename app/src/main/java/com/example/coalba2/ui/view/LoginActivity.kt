@@ -142,10 +142,6 @@ class LoginActivity : AppCompatActivity() {
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
                 }
-
-                // binding.tvExpires.text = NaverIdLoginSDK.getExpiresAt().toString()
-                // binding.tvType.text = NaverIdLoginSDK.getTokenType()
-                // binding.tvState.text = NaverIdLoginSDK.getState().toString()
             }
             override fun onFailure(httpStatus: Int, message: String) {
                 val errorCode = NaverIdLoginSDK.getLastErrorCode().code
@@ -156,7 +152,6 @@ class LoginActivity : AppCompatActivity() {
                 onFailure(errorCode, message)
             }
         }
-
         NaverIdLoginSDK.authenticate(this, oauthLoginCallback)
     }
 
