@@ -10,13 +10,13 @@ import com.example.coalba2.databinding.ItemWorkhistoryBinding
 class WorkHistoryAdapter(private val context: Context) : RecyclerView.Adapter<WorkHistoryAdapter.ViewHolder>() {
     var datas = mutableListOf<WorkHistoryData>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkHistoryAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemWorkhistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
     override fun getItemCount(): Int = datas.size
 
-    override fun onBindViewHolder(holder: WorkHistoryAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(datas[position])
     }
     class ViewHolder(private val binding: ItemWorkhistoryBinding): RecyclerView.ViewHolder(binding.root){

@@ -55,7 +55,6 @@ class WorkspaceHomeActivity : AppCompatActivity() {
                 Log.d("ScheduleDelete", "error")
             }
         })
-
         Toast.makeText(this@WorkspaceHomeActivity, "확인", Toast.LENGTH_SHORT).show()
     }
     val negativeButtonClick = { dialogInterface: DialogInterface, i: Int ->
@@ -113,7 +112,6 @@ class WorkspaceHomeActivity : AppCompatActivity() {
                         Log.d("responsevalue", "itemdata1_response 값 => "+ itemdata)
                         if (itemdata!!.name == binding.tvWorkspacehome.text){
                             storeId = itemdata.workspaceId
-                            Log.d("Network_ScheduleCalendar", "히이이얍"+ storeId)
                         }
                     }
                 }else{
@@ -137,7 +135,6 @@ class WorkspaceHomeActivity : AppCompatActivity() {
                     val data = response.body()
                     Log.d("ScheduleCalendarData", data.toString())
                     val num = data!!.selectedSubPage!!.selectedScheduleList.count()
-                    Log.d("num 값", "num 값 " + num)
                     if(num == 0){
                         Toast.makeText(this@WorkspaceHomeActivity, "오늘은 휴무입니다!", Toast.LENGTH_SHORT).show()
                     }
