@@ -40,7 +40,6 @@ class WorkspaceFragment : Fragment() {
             val intent = Intent(requireContext(), StoreRegisterActivity::class.java)
             startActivity(intent)
         }
-
         // 나의 워크스페이스 리스트 조회 서버 연동
         RetrofitManager.workspaceService?.workspaceListLook()?.enqueue(object:
             Callback<WorkspaceListLookResponseData> {

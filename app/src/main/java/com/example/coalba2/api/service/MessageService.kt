@@ -11,7 +11,7 @@ import retrofit2.http.Query
 
 interface MessageService {
     // 메시지 관련 service
-    // 해당 워크스페이스 내 알바와의 쪽지함 리스트 조회 => 아직
+    // 해당 워크스페이스 내 알바와의 쪽지함 리스트 조회
     @GET("boss/messages/boxes")
     fun messageBox(@Query("workspaceId") workspaceId: Long) : Call<MessageBoxResponseData>
 
@@ -21,5 +21,5 @@ interface MessageService {
 
     // 해당 워크스페이스의 해당 알바에게 쪽지 보내기 => 아직
     @POST("boss/messages")
-    fun messageAdd(@Query("workspaceId") workspaceId: Long, @Query("staffId") staffId: Long, @Body content : String) : Call<Void>
+    fun messageSend(@Query("workspaceId") workspaceId: Long, @Query("staffId") staffId: Long, @Body content : String) : Call<Void>
 }

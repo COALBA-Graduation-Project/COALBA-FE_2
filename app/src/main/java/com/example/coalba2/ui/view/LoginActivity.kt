@@ -44,12 +44,21 @@ class LoginActivity : AppCompatActivity() {
         mBinding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        if (CoalbaApplication.prefs.accessToken != null && CoalbaApplication.prefs.refreshToken != null){
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            finish()
+            startActivity(intent)
+        }
+
         // 구글 로그인
         initForGoogleLogin()
         binding.googleLoginbtn.setOnClickListener { googleLogin() }
-        // 네이버 로그인
-        initForNaverLogin()
-        binding.naverLoginbtn.setOAuthLogin(oauthLoginCallback!!)
+
+        binding.naverLoginbtn.setOnClickListener {
+            // 네이버 로그인
+            initForNaverLogin()
+            binding.naverLoginbtn.setOAuthLogin(oauthLoginCallback!!)
+        }
     }
 
     private fun initForGoogleLogin() {
@@ -98,13 +107,7 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("Google Login", "onResponse: ${response.body()}")
                     //아래 코드 없으면 다음 로그인 시 자동 로그인 됨, 즉 다른 계정으로 로그인하고 싶어도 이전에 로그인했던 계정으로 자동 로그인
                     // googleSignInClient.signOut()
-                    if (CoalbaApplication.prefs.accessToken == null && CoalbaApplication.prefs.refreshToken == null){
-                        login("GOOGLE", response.body()?.accessToken, response.body()?.refreshToken) //백 서버 로그인
-                    }
-                    else{
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        startActivity(intent)
-                    }
+                    login("GOOGLE", response.body()?.accessToken, response.body()?.refreshToken)
                 } else { //실패 시
                     Log.e("Google Login", "onResponseFail: ${response.code()}")
                 }
@@ -127,21 +130,15 @@ class LoginActivity : AppCompatActivity() {
         val naver_client_name = "COALBA"
         NaverIdLoginSDK.initialize(this, naver_client_id, naver_client_secret, naver_client_name)
 
+        // 자동 로그인 방지하려면 밑에 코드 사용해야 함
+        // NaverIdLoginSDK.logout()
         val oauthLoginCallback = object : OAuthLoginCallback {
             override fun onSuccess() {
                 // 네이버 로그인 인증이 성공했을 때 수행할 코드 추가
                 // 네이버는 기본적으로 access_token, refresh_token 매번 모두 바로 발급됨
                 val accessToken: String? = NaverIdLoginSDK.getAccessToken()
                 val refreshToken: String? = NaverIdLoginSDK.getRefreshToken()
-                // 자동 로그인 방지하려면 밑에 코드 사용해야 함
-                // NaverIdLoginSDK.logout()
-                if (CoalbaApplication.prefs.accessToken == null && CoalbaApplication.prefs.refreshToken == null){
-                    login("NAVER", accessToken, refreshToken) //백 서버 로그인
-                }
-                else{
-                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                    startActivity(intent)
-                }
+                login("NAVER", accessToken, refreshToken) //백 서버 로그인
             }
             override fun onFailure(httpStatus: Int, message: String) {
                 val errorCode = NaverIdLoginSDK.getLastErrorCode().code
@@ -172,9 +169,18 @@ class LoginActivity : AppCompatActivity() {
                         CoalbaApplication.prefs.accessToken = result?.accessToken
                         CoalbaApplication.prefs.refreshToken = result?.refreshToken
 
-                        // 처음 로그인할 때 프로필 등록 화면으로 가장 먼저 이동해야 함
-                        val intent = Intent(this@LoginActivity, ProfileRegisterActivity::class.java)
-                        startActivity(intent)
+                        if (result?.isNewUser == true){
+                            // 처음 로그인할 때 프로필 등록 화면으로 가장 먼저 이동해야 함
+                            val intent = Intent(this@LoginActivity, ProfileRegisterActivity::class.java)
+                            finish()
+                            startActivity(intent)
+                        }
+                        else{
+                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                            finish()
+                            startActivity(intent)
+                        }
+
                     } else { //실패 시
                         Log.e(ContentValues.TAG, "onResponse: ${response.code()}")
                         Log.d("server err", response.errorBody()?.string().toString())

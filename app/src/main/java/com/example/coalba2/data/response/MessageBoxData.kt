@@ -6,9 +6,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class MessageBoxData(
-    // 아마 이미지는 string 값으로 넘길듯
     @SerializedName("img")
-    val img: Int,
+    val img: String,
     @SerializedName("name")
     val name: String,
     @SerializedName("latestMessage")

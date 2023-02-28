@@ -35,7 +35,6 @@
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"
-        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="32dp"
         tools:listitem="@layout/item_messagebox"
         android:overScrollMode="never"
