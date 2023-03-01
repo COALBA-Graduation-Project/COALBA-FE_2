@@ -37,11 +37,6 @@ class PartTimeJobAddActivity : AppCompatActivity() {
                         Log.d("Network_WorkspaceStaffAdd", "success")
                     }else{
                         // 이곳은 에러 발생할 경우 실행됨
-                        val data1 = response.code()
-                        Log.d("status code", data1.toString())
-                        val data2 = response.headers()
-                        Log.d("header", data2.toString())
-                        Log.d("server err", response.errorBody()?.string().toString())
                         Log.d("Network_WorkspaceStaffAdd", "fail")
                     }
                 }
@@ -50,7 +45,6 @@ class PartTimeJobAddActivity : AppCompatActivity() {
                 }
             })
         }
-
         binding.ivParttimeAddBack.setOnClickListener {
             finish()
         }

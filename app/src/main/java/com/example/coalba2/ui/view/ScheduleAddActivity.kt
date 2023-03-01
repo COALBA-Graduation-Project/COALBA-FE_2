@@ -146,6 +146,7 @@ class ScheduleAddActivity : AppCompatActivity() {
                     }else{
                         // 이곳은 에러 발생할 경우 실행됨
                         Log.d("ScheduleAdd", "fail")
+                        finish()
                     }
                 }
                 override fun onFailure(call: Call<Void>, t: Throwable) {
