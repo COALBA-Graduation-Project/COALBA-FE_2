@@ -56,7 +56,7 @@ class MessageDetailFragment : Fragment() {
                         for(i in 0..num-1){
                             val itemdata = response.body()?.messageList?.get(i)
                             Log.d("responsevalue", "itemdata1_response 값 => "+ itemdata)
-                            datas.add(MessageDetailData(state= itemdata!!.criteria, date = itemdata.createdDate, messageContent = itemdata.content))
+                            datas.add(MessageDetailData(state= itemdata!!.sendingOrReceiving, date = itemdata.createDate, messageContent = itemdata.content))
                         }
                         messageDetailAdapter.datas = datas
                         messageDetailAdapter.notifyDataSetChanged()

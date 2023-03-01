@@ -45,7 +45,12 @@ class MessageDetailActivity : AppCompatActivity() {
             finish()
         }
         binding.ivMessagedetailSend.setOnClickListener {
-            supportFragmentManager.beginTransaction().replace(R.id.fl_messagedatail, MessageSendFragment()).commit()
+            val bundle2 = Bundle()
+            bundle2.putLong("STOREID", storeId)
+            bundle2.putLong("SID", sId)
+            val sendFragment = MessageSendFragment()
+            sendFragment.arguments = bundle2
+            supportFragmentManager.beginTransaction().replace(R.id.fl_messagedatail, sendFragment).commit()
             binding.ivMessagedetailSend.visibility = View.GONE
         }
     }

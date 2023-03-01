@@ -15,12 +15,12 @@ data class MessagesResponseData(
     var messageList: List<MessageListData> = arrayListOf()
 )
 data class MessageListData(
-    @SerializedName("messagId")
-    val messagId: Long,
-    @SerializedName("criteria")
-    val criteria: String,
+    @SerializedName("messageId")
+    val messageId: Long,
+    @SerializedName("sendingOrReceiving")
+    val sendingOrReceiving: String,
     @SerializedName("content")
     val content: String,
-    @SerializedName("createdDate")
-    val createdDate: String
+    @SerializedName("createDate")
+    val createDate: String
 )

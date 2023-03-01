@@ -32,7 +32,7 @@ class MessageDetailAdapter(private val context: Context): RecyclerView.Adapter<M
             txtState.text = item.state
             txtDate.text = item.date
             txtContent.text = item.messageContent
-            if(txtState.text == "보낸 쪽지"){
+            if(txtState.text == "보낸쪽지"){
                 txtState.setTextColor(getColor(context, R.color.send_message))
             }
         }
