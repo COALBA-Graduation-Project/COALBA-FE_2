@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:text="@string/storeregister_title"
         android:textColor="@color/black"
-        android:textSize="21sp"
+        android:textSize="21dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:text="@string/storeedit_name"
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:hint="@string/storeregister_et_name"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 app:layout_constraintTop_toBottomOf="@id/tv_store_register_name"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:text="@string/storeedit_phonenumber"
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:hint="@string/storeregister_et_phonenumber"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 app:layout_constraintTop_toBottomOf="@id/tv_store_register_phonenumber"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -116,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:text="@string/storeedit_address"
@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:hint="@string/storeregister_et_address"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 app:layout_constraintTop_toBottomOf="@id/tv_store_register_address"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -139,7 +139,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:text="@string/storeedit_number"
@@ -152,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:hint="@string/storeregister_et_number"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 app:layout_constraintTop_toBottomOf="@id/tv_store_register_number"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -162,7 +162,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:text="@string/storeedit_worktype"
@@ -182,7 +182,7 @@
                     android:id="@+id/rb_fix"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="18dp"
                     android:layout_weight="1"
                     android:text="@string/storeedit_fix" />
 
@@ -190,7 +190,7 @@
                     android:id="@+id/rb_weekly"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="18dp"
                     android:layout_weight="1"
                     android:text="@string/storeedit_weekly"/>
 
@@ -198,7 +198,7 @@
                     android:id="@+id/rb_monthly"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="18dp"
                     android:layout_weight="1"
                     android:text="@string/storeedit_monthly"/>
             </RadioGroup>
@@ -208,7 +208,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:text="@string/storeedit_paymentmethod"
@@ -228,7 +228,7 @@
                     android:id="@+id/rb_weeklywage"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="18dp"
                     android:layout_weight="1"
                     android:text="@string/storeedit_weeklywage" />
 
@@ -236,10 +236,9 @@
                     android:id="@+id/rb_monthlywage"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="18dp"
                     android:layout_weight="1"
                     android:text="@string/storeedit_monthlywage"/>
-
             </RadioGroup>
 
             <Button
@@ -249,7 +248,7 @@
                 android:background="@drawable/bg_basicbtn"
                 android:layout_marginTop="60dp"
                 android:layout_marginHorizontal="12dp"
-                android:textSize="20sp"
+                android:textSize="20dp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:text="@string/profileregister_completion"

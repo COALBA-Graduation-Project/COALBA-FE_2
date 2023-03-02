@@ -55,7 +55,7 @@ class WorkspaceHomeActivity : AppCompatActivity() {
                 Log.d("ScheduleDelete", "error")
             }
         })
-        Toast.makeText(this@WorkspaceHomeActivity, "확인", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this@WorkspaceHomeActivity, "삭제되었습니다", Toast.LENGTH_SHORT).show()
     }
     val negativeButtonClick = { dialogInterface: DialogInterface, i: Int ->
         Toast.makeText(this@WorkspaceHomeActivity, "취소", Toast.LENGTH_SHORT).show()

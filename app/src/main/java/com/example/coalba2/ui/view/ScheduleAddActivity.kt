@@ -91,8 +91,6 @@ class ScheduleAddActivity : AppCompatActivity() {
                     response: Response<SchedulePossibleResponseData>
                 ) {
                     if(response.isSuccessful){
-                        Log.d("starttime 값!", binding.tvScheduleaddPutdate.text.toString()+" "+ binding.tvScheduleaddStarthour.text.toString()+":"+binding.tvScheduleaddStartminute.text.toString())
-                        Log.d("endtime 값!", binding.tvScheduleaddPutdate.text.toString()+" "+ binding.tvScheduleaddEndhour.text.toString()+":"+binding.tvScheduleaddEndminute.text.toString())
                         Log.d("SchedulePossible", "success")
                         val data = response.body()
                         Log.d("SchedulePossibleData", data.toString())

@@ -109,7 +109,7 @@
     <!-- ScheduleAdd -->
     <string name="scheduleadd_title">근무 스케줄 추가</string>
     <string name="scheduleadd_date">근무날짜</string>
-    <string name="scheduleadd_exdate">2023.02.01</string>
+    <string name="scheduleadd_exdate">2023-02-01</string>
     <string name="scheduleadd_time">근무시간</string>
     <string name="scheduleadd_colon">:</string>
     <string name="scheduleadd_starthour">15</string>

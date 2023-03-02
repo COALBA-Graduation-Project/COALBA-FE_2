@@ -13,7 +13,7 @@
         android:gravity="center"
         android:text="@string/workspacehome_month"
         android:textColor="@color/black"
-        android:textSize="17sp"
+        android:textSize="17dp"
         android:textStyle="bold"/>
 
     <LinearLayout
@@ -27,7 +27,7 @@
             android:layout_weight="1"
             android:text="@string/workspacehome_sun"
             android:textColor="#ff0000"
-            android:textSize="14sp"
+            android:textSize="14dp"
             android:gravity="center" />
         <TextView
             android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
             android:layout_weight="1"
             android:text="@string/workspacehome_mon"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="14dp"
             android:gravity="center" />
         <TextView
             android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
             android:layout_weight="1"
             android:text="@string/workspacehome_tue"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="14dp"
             android:gravity="center" />
         <TextView
             android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
             android:layout_weight="1"
             android:text="@string/workspacehome_wed"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="14dp"
             android:gravity="center" />
         <TextView
             android:layout_width="wrap_content"
@@ -59,7 +59,7 @@
             android:layout_weight="1"
             android:text="@string/workspacehome_thu"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="14dp"
             android:gravity="center" />
         <TextView
             android:layout_width="wrap_content"
@@ -67,7 +67,7 @@
             android:layout_weight="1"
             android:text="@string/workspacehome_fri"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="14dp"
             android:gravity="center" />
         <TextView
             android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
             android:layout_weight="1"
             android:text="@string/workspacehome_sat"
             android:textColor="#0000ff"
-            android:textSize="14sp"
+            android:textSize="14dp"
             android:gravity="center" />
     </LinearLayout>
 
