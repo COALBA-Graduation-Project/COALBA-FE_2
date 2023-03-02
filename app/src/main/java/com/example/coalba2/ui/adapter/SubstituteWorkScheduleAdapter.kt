@@ -1,5 +1,6 @@
 package com.example.coalba2.ui.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,8 @@ import com.bumptech.glide.Glide
 import com.example.coalba2.R
 import com.example.coalba2.data.response.SubstituteWorkScheduleData
 import com.example.coalba2.databinding.ItemSubstituteworkManageScheduleBinding
+import com.example.coalba2.data.SubstituteReqState.*
+import com.example.coalba2.ui.view.SubstituteWorkProcessActivity
 
 class SubstituteWorkScheduleAdapter: RecyclerView.Adapter<SubstituteWorkScheduleAdapter.ViewHolder>() {
     lateinit var itemList: MutableList<SubstituteWorkScheduleData>
@@ -30,19 +33,22 @@ class SubstituteWorkScheduleAdapter: RecyclerView.Adapter<SubstituteWorkSchedule
                 tvSubstituteworkManageDate.text = item.date
                 tvSubstituteworkManageStarttime.text = item.starttime
                 tvSubstituteworkManageEndtime.text = item.endtime
-                if(tvSubstituteworkManageState.text == "거절"){
-                    tvSubstituteworkManageState.visibility = View.VISIBLE
-                    tvSubstituteworkManageState.setTextColor(ContextCompat.getColor(context, R.color.refuse))
-                }
-                else if(tvSubstituteworkManageState.text == "수락"){
-                    tvSubstituteworkManageState.visibility = View.VISIBLE
+
+                when (item.state) {
+                    APPROVAL.value -> {
+                        tvSubstituteworkManageState.visibility = View.VISIBLE
+                        tvSubstituteworkManageState.text = APPROVAL.text
+                    }
+                    DISAPPROVAL.value -> {
+                        tvSubstituteworkManageState.visibility = View.VISIBLE
+                        tvSubstituteworkManageState.text = DISAPPROVAL.text
+                        tvSubstituteworkManageState.setTextColor(ContextCompat.getColor(context, R.color.refuse))
+                    }
+                    else -> {
+                        tvSubstituteworkManageState.visibility = View.GONE
+                    }
                 }
             }
-            /*
-            itemView.setOnClickListener {
-                val intent = Intent(context, DiaryDetailActivity::class.java)
-                intent.run { context.startActivity(this) }
-            }*/
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
@@ -50,6 +56,12 @@ class SubstituteWorkScheduleAdapter: RecyclerView.Adapter<SubstituteWorkSchedule
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(itemList[position])
+        //아이템 뷰 클릭 리스너 처리
+        holder.itemView.setOnClickListener {
+            val intent = Intent(it.context, SubstituteWorkProcessActivity::class.java)
+            intent.putExtra("substituteReqId", itemList[position].substituteReqId)
+            intent.run { it.context.startActivity(this) }
+        }
     }
 
     override fun getItemCount(): Int = itemList.size
