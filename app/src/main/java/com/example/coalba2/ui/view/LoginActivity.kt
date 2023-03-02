@@ -18,10 +18,11 @@ import com.example.coalba2.BuildConfig
 import com.example.coalba2.api.jwt.CoalbaApplication
 import com.example.coalba2.api.retrofit.RetrofitManager
 import com.example.coalba2.api.service.GoogleLoginService
-import com.example.coalba2.data.request.AuthRequestData
-import com.example.coalba2.data.request.GoogleLoginRequestData
+import com.example.coalba2.api.service.MyFirebaseMessagingService
+import com.example.coalba2.data.request.*
 import com.example.coalba2.data.response.AuthResponseData
 import com.example.coalba2.data.response.GoogleLoginResponseData
+import com.google.firebase.messaging.FirebaseMessaging
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.NaverIdLoginSDK.oauthLoginCallback
 import com.navercorp.nid.oauth.OAuthLoginCallback
@@ -195,6 +196,24 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-
+        FirebaseMessaging.getInstance().token.addOnSuccessListener {
+            println("it = $it") //토큰 출력, it이 토큰값
+            // Coalba 서버에 해당 디바이스 토큰 저장하는 서버 연동
+            val notificationData = NotificationRequestData(deviceToken = it)
+            RetrofitManager.notificationService?.notification(notificationData)?.enqueue(object:
+                Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if(response.isSuccessful){
+                        Log.d("Notification", "success")
+                    }else{
+                        // 이곳은 에러 발생할 경우 실행됨
+                        Log.d("Notification", "fail")
+                    }
+                }
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Log.d("Notification", "error")
+                }
+            })
+        }
     }
 }
