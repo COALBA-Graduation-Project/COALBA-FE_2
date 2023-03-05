@@ -32,9 +32,9 @@ interface WorkspaceService {
     @POST("boss/workspaces")
     fun workspaceAdd(@Part("workspace") WorkspaceAddData: RequestBody, @Part imageFile: MultipartBody.Part): Call<Void>
 
-    // 해당 워크스페이스에 알바 추가
-    @POST("boss/workspaces/{workspaceId}/staffs")
-    fun workspaceStaffAdd(@Path("workspaceId") workspaceId: Long, @Query("email") email: String): Call<Void>
+    // 해당 워크스페이스에 알바 초대
+    @POST("boss/workspaces/{workspaceId}/invite")
+    fun workspaceStaffAdd(@Path("workspaceId") workspaceId: Long, @Query("receiverEmail") receiverEmail: String): Call<Void>
 
     // 해당 워크스페이스 정보 수정
     @Multipart
