@@ -1,9 +1,6 @@
 package com.example.coalba2.api.service
 
-import com.example.coalba2.data.response.WorkspaceBriefListLookResponseData
-import com.example.coalba2.data.response.WorkspaceDetailResponseData
-import com.example.coalba2.data.response.WorkspaceListLookResponseData
-import com.example.coalba2.data.response.WorkspaceStaffListLookResponseData
+import com.example.coalba2.data.response.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -30,7 +27,7 @@ interface WorkspaceService {
     // 워크스페이스 추가
     @Multipart
     @POST("boss/workspaces")
-    fun workspaceAdd(@Part("workspace") WorkspaceAddData: RequestBody, @Part imageFile: MultipartBody.Part): Call<Void>
+    fun workspaceAdd(@Part("workspace") WorkspaceAddData: RequestBody, @Part imageFile: MultipartBody.Part): Call<WorkspaceListLookResponseData>
 
     // 해당 워크스페이스에 알바 초대
     @POST("boss/workspaces/{workspaceId}/invite")

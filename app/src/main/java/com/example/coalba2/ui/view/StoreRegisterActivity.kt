@@ -17,7 +17,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.coalba2.R
 import com.example.coalba2.api.retrofit.RetrofitManager
+import com.example.coalba2.data.response.WorkspaceListLookResponseData
 import com.example.coalba2.databinding.ActivityStoreRegisterBinding
+import com.example.coalba2.ui.fragment.WorkspaceFragment
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -109,27 +111,23 @@ class StoreRegisterActivity : AppCompatActivity() {
             // 현재 사용자의 정보를 받아올 것을 명시
             // 서버 통신은 I/O 작업이므로 비동기적으로 받아올 Callback 내부 코드는 나중에 데이터를 받아오고 실행
             RetrofitManager.workspaceService?.workspaceAdd(body2,body)?.enqueue(object :
-                Callback<Void> {
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                Callback<WorkspaceListLookResponseData> {
+                override fun onResponse(call: Call<WorkspaceListLookResponseData>, response: Response<WorkspaceListLookResponseData>) {
                     // 네트워크 통신에 성공한 경우
                     if (response.isSuccessful) {
-                        Log.d("Network_WorkspaceAdd", "success")
+                        Log.d("WorkspaceAdd", "success")
                         val data = response.body()
                         Log.d("responsevalue", "response값=> " + data)
-                        // todo: 메인화면 ..? workspacefragment 화면으로 바꿔야 하는데 수정 필요!!!
-                        val intent = Intent(this@StoreRegisterActivity, MainActivity::class.java)
-                        startActivity(intent)
+                        val intent = Intent(this@StoreRegisterActivity, WorkspaceFragment::class.java)
+                            .putExtra("responseData", response.body()) //워크스페이스 등록 api 응답 데이터 이전 화면인 WorkspaceFragment에게 전달
+                        setResult(RESULT_OK, intent)
+                        finish()
                     }else { // 이곳은 에러 발생할 경우 실행됨
-                        val data1 = response.code()
-                        Log.d("status code", data1.toString())
-                        val data2 = response.headers()
-                        Log.d("header", data2.toString())
-                        Log.d("server err", response.errorBody()?.string().toString())
-                        Log.d("Network_WorkspaceAdd", "fail")
+                        Log.d("WorkspaceAdd", "fail")
                     }
                 }
-                override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Log.d("Network_WorkspaceAdd", "error!")
+                override fun onFailure(call: Call<WorkspaceListLookResponseData>, t: Throwable) {
+                    Log.d("WorkspaceAdd", "error!")
                 }
             })
         }
