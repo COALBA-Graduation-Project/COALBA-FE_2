@@ -38,7 +38,6 @@ class HomeFragment : Fragment() {
     lateinit var calendarAdapter: WeekCalendarAdapter
     private var calendarList = ArrayList<WeekCalendarData>()
     private var homeWorkspaceList = ArrayList<HomeWorkspaceData>()
-    private var homeWorkspaceList2 = ArrayList<HomeWorkspaceData>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,6 +54,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         calendarAdapter = WeekCalendarAdapter(calendarList, object:WeekCalendarAdapter.HomeDayClickListener {
             override fun click(year: Int, month: Int, day: Int) {
+                binding.tvHomeDate.text = "${year}년 ${month}월" //날짜 클릭 시 년월 텍스트 변경
+
                 // 홈 가게별 해당 날짜 스케줄 조회 서버 연동 완료
                 RetrofitManager.scheduleService?.scheduleEachWorkspace(year,month,day)?.enqueue(object:
                     Callback<ScheduleEachWorkspaceResponseData> {
@@ -65,39 +66,18 @@ class HomeFragment : Fragment() {
                         if(response.isSuccessful){
                             Log.d("Network_Schedule2", "success")
                             val data = response.body()
-                            val num2 = data!!.workspaceList.count()
-                            Log.d("num 값", "num 값 " + num2)
-                            if (num2 == 0){
-                                Toast.makeText(requireContext(), "등록한 워크스페이스가 존재하지 않습니다!", Toast.LENGTH_SHORT).show()
-                            }
-                            else{
-                                for(i in 0..num2-1){
-                                    val itemdata2 = response.body()?.workspaceList?.get(i)
-                                    Log.d("responsevalue", "workspace response 값 => "+ itemdata2)
-
-                                    val num3 = itemdata2?.selectedScheduleList!!.count()
-                                    Log.d("num 값", "num 값 " + num3)
-                                    if (num3 == 0){
-                                        homeWorkspaceList2.add(HomeWorkspaceData(itemdata2.imageUrl, itemdata2.name, mutableListOf(
-                                            HomeWorkspaceStaffData("10:00","19:00","예진", "근무중")
-                                        )))
-                                    }
-                                    else{
-                                        for(j in 0..num3-1) {
-                                            val itemdata3 = itemdata2.selectedScheduleList.get(j)
-                                            Log.d("responsevalue", "schedule response 값 => " + itemdata3)
-
-                                            homeWorkspaceList2.add(HomeWorkspaceData(itemdata2.imageUrl,itemdata2.name, mutableListOf(
-                                                HomeWorkspaceStaffData(itemdata3.scheduleStartTime,itemdata3.scheduleEndTime,itemdata3.worker!!.name,itemdata3.status)
-                                            )))
-                                        }
-                                    }
+                            homeWorkspaceList.clear() //기존 데이터 clear
+                            homeWorkspaceList.addAll(
+                                data!!.workspaceList.map {workspace ->
+                                    HomeWorkspaceData(workspace.imageUrl, workspace.name,
+                                        workspace.selectedScheduleList.map {schedule ->
+                                            HomeWorkspaceStaffData(schedule.scheduleStartTime, schedule.scheduleEndTime, schedule.logicalStartTime, schedule.logicalEndTime, schedule.worker!!.name, schedule.status)
+                                        }.toMutableList()
+                                    )
                                 }
-                                binding.rvHomeWorkspace.apply {
-                                    adapter = HomeWorkspaceAdapter().build(homeWorkspaceList2)
-                                    layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
-                                }
-                            }
+                            )
+                            //어댑터에 변경된 데이터 적용
+                            binding.rvHomeWorkspace.adapter!!.notifyItemRangeChanged(0, homeWorkspaceList.size)
                         }else{
                             // 이곳은 에러 발생할 경우 실행됨
                             Log.d("Network_Schedule2", "fail")
@@ -118,67 +98,37 @@ class HomeFragment : Fragment() {
                 response: Response<ScheduleMainResponseData>
             ) {
                 if(response.isSuccessful){
-                    Log.d("Network_ScheduleMain", "success")
+                    Log.d("ScheduleMain", "success")
                     val data = response.body()
-                    val num = data!!.dateList.count()
-                    Log.d("num 값", "num 값 " + num)
-                    for(i in 0..num-1){
-                        val itemdata = response.body()?.dateList?.get(i)
-                        Log.d("responsevalue", "itemdata1_response 값 => "+ itemdata)
-                        if (i == 3){
-                            binding.tvHomeDate.text = itemdata!!.date!!.year.toString() + "년" + itemdata!!.date!!.month.toString() + "월"
+                    calendarList.addAll(
+                        data!!.dateList.map {date ->
+                            WeekCalendarData(date.date!!.year, date.date.month, date.date.dayOfWeek, date.date.day, date.totalScheduleStatus)
                         }
-                        calendarList.add(WeekCalendarData(itemdata!!.date!!.year, itemdata!!.date!!.month, itemdata!!.date!!.dayOfWeek, itemdata!!.date!!.day, itemdata!!.totalScheduleStatus))
-                    }
+                    )
+                    val selectedDate = data.selectedSubPage!!.selectedDate!! //선택된 날짜 (오늘 날짜)
+                    binding.tvHomeDate.text = "${selectedDate.year}년 ${selectedDate.month}월"
                     binding.rvHomeWeek.adapter = calendarAdapter
                     binding.rvHomeWeek.layoutManager = GridLayoutManager(context, 7)
-
-                    val num2 = data.selectedSubPage!!.workspaceList.count()
-                    Log.d("num 값", "num 값 " + num2)
-                    if (num2 == 0){
-                        Toast.makeText(requireContext(), "등록한 워크스페이스가 존재하지 않습니다!", Toast.LENGTH_SHORT).show()
-                    }
-                    else{
-                        for(i in 0..num2-1){
-                            val itemdata2 = response.body()?.selectedSubPage?.workspaceList?.get(i)
-                            Log.d("responsevalue", "workspace response 값 => "+ itemdata2)
-
-                            val num3 = itemdata2?.selectedScheduleList!!.count()
-                            Log.d("num 값", "num 값 " + num3)
-                            if (num3 == 0){
-                                // todo : 스케줄이 없을 때는 어떻게 할지 수정 필요
-                                homeWorkspaceList.add(HomeWorkspaceData(itemdata2.imageUrl, itemdata2.name, mutableListOf(
-                                    HomeWorkspaceStaffData("12:00","17:00","조예진", "근무중")
-                                )))
-                            }
-                            else{
-                                for(j in 0..num3-1) {
-                                    val itemdata3 = itemdata2.selectedScheduleList.get(j)
-                                    Log.d("responsevalue", "schedule response 값 => " + itemdata3)
-
-                                    homeWorkspaceList.add(HomeWorkspaceData(itemdata2.imageUrl,itemdata2.name, mutableListOf(
-                                        HomeWorkspaceStaffData(itemdata3.scheduleStartTime,itemdata3.scheduleEndTime,itemdata3.worker!!.name,itemdata3.status)
-                                    )))
-                                }
-                            }
+                    homeWorkspaceList.addAll(
+                        data.selectedSubPage.workspaceList.map {workspace ->
+                            HomeWorkspaceData(workspace.imageUrl, workspace.name,
+                                workspace.selectedScheduleList.map {schedule ->
+                                    HomeWorkspaceStaffData(schedule.scheduleStartTime, schedule.scheduleEndTime, schedule.logicalStartTime, schedule.logicalEndTime, schedule.worker!!.name, schedule.status)
+                                }.toMutableList()
+                            )
                         }
-                        binding.rvHomeWorkspace.apply {
-                            adapter = HomeWorkspaceAdapter().build(homeWorkspaceList)
-                            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
-                        }
+                    )
+                    binding.rvHomeWorkspace.apply {
+                        adapter = HomeWorkspaceAdapter().build(homeWorkspaceList)
+                        layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
                     }
                 }else{
                     // 이곳은 에러 발생할 경우 실행됨 => 401일 경우 token 만료된 것!
-                    val data1 = response.code()
-                    Log.d("status code", data1.toString())
-                    val data2 = response.headers()
-                    Log.d("header", data2.toString())
-                    Log.d("server err", response.errorBody()?.string().toString())
-                    Log.d("Network_ScheduleMain", "fail")
+                    Log.d("ScheduleMain", "fail")
                 }
             }
             override fun onFailure(call: Call<ScheduleMainResponseData>, t: Throwable) {
-                Log.d("Network_ScheduleMain", "error")
+                Log.d("ScheduleMain", "error")
             }
         })
     }
