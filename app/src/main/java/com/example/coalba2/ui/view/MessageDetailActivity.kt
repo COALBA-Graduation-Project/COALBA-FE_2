@@ -34,13 +34,14 @@ class MessageDetailActivity : AppCompatActivity() {
     val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         when (it.resultCode) {
             Activity.RESULT_OK -> {
-                val responseData = it.data!!.getParcelableExtra<MessageSendResponseData>("responseData")
+                val responseData = it.data!!.getParcelableExtra<MessagesResponseData>("responseData")
                 //responseData는 워크스페이스 등록 api 호출 후 응답 데이터
                 Log.d("responseData =", responseData.toString())
                 datas.clear()
-                // todo : 수정 필요!
-                datas.add(MessageDetailData(responseData!!.sendingOrReceiving, responseData.createDate, responseData.content))
-                binding.rvMessagedetail.adapter?.notifyDataSetChanged()
+                responseData!!.messageList.forEach { message ->
+                    datas.add(MessageDetailData(message.sendingOrReceiving, message.createDate, message.content))
+                }
+                binding.rvMessagedetail.adapter?.notifyItemRangeChanged(0, responseData.messageList.count())
                 //adapter에게 데이터 변경되었다는 것 알림
             }
         }

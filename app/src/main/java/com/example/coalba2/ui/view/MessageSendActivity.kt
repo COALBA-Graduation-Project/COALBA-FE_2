@@ -11,6 +11,7 @@ import com.example.coalba2.R
 import com.example.coalba2.api.retrofit.RetrofitManager
 import com.example.coalba2.data.request.MessageSendData
 import com.example.coalba2.data.response.MessageSendResponseData
+import com.example.coalba2.data.response.MessagesResponseData
 import com.example.coalba2.databinding.ActivityMessageDetailBinding
 import com.example.coalba2.databinding.ActivityMessageSendBinding
 import retrofit2.Call
@@ -56,8 +57,8 @@ class MessageSendActivity : AppCompatActivity() {
             val messageData = MessageSendData(binding.etMessagesend.text.toString())
             Log.d("Data", messageData.content)
             RetrofitManager.messageService?.messageSend(wId, sId, messageData)?.enqueue(object:
-                Callback<MessageSendResponseData> {
-                override fun onResponse(call: Call<MessageSendResponseData>, response: Response<MessageSendResponseData>) {
+                Callback<MessagesResponseData> {
+                override fun onResponse(call: Call<MessagesResponseData>, response: Response<MessagesResponseData>) {
                     if(response.isSuccessful){
                         Log.d("MessageSend", "success")
                         val data = response.body()
@@ -70,7 +71,7 @@ class MessageSendActivity : AppCompatActivity() {
                         Log.d("MessageSend", "fail")
                     }
                 }
-                override fun onFailure(call: Call<MessageSendResponseData>, t: Throwable) {
+                override fun onFailure(call: Call<MessagesResponseData>, t: Throwable) {
                     Log.d("MessageSend", "error")
                 }
             })
