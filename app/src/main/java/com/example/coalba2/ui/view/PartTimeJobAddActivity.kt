@@ -24,7 +24,7 @@ class PartTimeJobAddActivity : AppCompatActivity() {
         mBinding = ActivityPartTimeJobAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        Log.d("Network_WorkspaceStaffAdd_data", intent.getLongExtra("storeId", 0).toString())
+        Log.d("WorkspaceStaffAdd_data", intent.getLongExtra("storeId", 0).toString())
         binding.btnParttimeAdd.setOnClickListener {
             // 해당 워크스페이스에 알바 추가 서버 연동
             RetrofitManager.workspaceService?.workspaceStaffAdd(intent.getLongExtra("storeId", 0), binding.etParttimeAddEmail.text.toString())?.enqueue(object:
@@ -34,14 +34,15 @@ class PartTimeJobAddActivity : AppCompatActivity() {
                     response: Response<Void>
                 ) {
                     if(response.isSuccessful){
-                        Log.d("Network_WorkspaceStaffAdd", "success")
+                        Log.d("WorkspaceStaffAdd", "success")
+                        finish()
                     }else{
                         // 이곳은 에러 발생할 경우 실행됨
-                        Log.d("Network_WorkspaceStaffAdd", "fail")
+                        Log.d("WorkspaceStaffAdd", "fail")
                     }
                 }
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Log.d("Network_WorkspaceStaffAdd", "error")
+                    Log.d("WorkspaceStaffAdd", "error")
                 }
             })
         }
