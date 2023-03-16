@@ -100,6 +100,8 @@ class HomeFragment : Fragment() {
                 if(response.isSuccessful){
                     Log.d("ScheduleMain", "success")
                     val data = response.body()
+
+                    calendarList.clear()
                     calendarList.addAll(
                         data!!.dateList.map {date ->
                             WeekCalendarData(date.date!!.year, date.date.month, date.date.dayOfWeek, date.date.day, date.totalScheduleStatus)
@@ -124,6 +126,11 @@ class HomeFragment : Fragment() {
                     }
                 }else{
                     // 이곳은 에러 발생할 경우 실행됨 => 401일 경우 token 만료된 것!
+                    val data1 = response.code()
+                    Log.d("status code", data1.toString())
+                    val data2 = response.headers()
+                    Log.d("header", data2.toString())
+                    Log.d("server err", response.errorBody()?.string().toString())
                     Log.d("ScheduleMain", "fail")
                 }
             }

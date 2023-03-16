@@ -49,28 +49,24 @@ class PartTimeJobManageActivity : AppCompatActivity() {
                 response: Response<WorkspaceStaffListLookResponseData>
             ) {
                 if(response.isSuccessful){
-                    Log.d("Network_WorkspaceStaffListLook", "success")
-                    Log.d("Network_WorkspaceStaffListLook_data", storeId.toString())
+                    Log.d("WorkspaceStaffListLook", "success")
                     val data = response.body()
                     val num = data!!.staffInfoList.count()
-                    Log.d("num 값", "num 값 " + num)
                     partTimeJobManageAdapter = PartTimeJobManageAdapter(this@PartTimeJobManageActivity)
                     binding.rvParttimeManage.adapter = partTimeJobManageAdapter
 
                     for(i in 0..num-1){
                         val itemdata = response.body()?.staffInfoList?.get(i)
-                        Log.d("responsevalue", "itemdata1_response 값 => "+ itemdata)
                         datas.add(PartTimeManageData(itemdata!!.imageUrl, itemdata!!.name, itemdata!!.phoneNumber, itemdata!!.birthDate))
                     }
                     partTimeJobManageAdapter.datas = datas
                     partTimeJobManageAdapter.notifyDataSetChanged()
-                }else{
-                    // 이곳은 에러 발생할 경우 실행됨
-                    Log.d("Network_WorkspaceStaffListLook", "fail")
+                }else{ // 이곳은 에러 발생할 경우 실행됨
+                    Log.d("WorkspaceStaffListLook", "fail")
                 }
             }
             override fun onFailure(call: Call<WorkspaceStaffListLookResponseData>, t: Throwable) {
-                Log.d("Network_WorkspaceStaffListLook", "error")
+                Log.d("WorkspaceStaffListLook", "error")
             }
         })
     }

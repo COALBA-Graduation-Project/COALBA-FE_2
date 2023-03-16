@@ -63,9 +63,6 @@ class MessageSendActivity : AppCompatActivity() {
                         Log.d("MessageSend", "success")
                         val data = response.body()
                         Log.d("MessagesData", data.toString())
-                        val intent = Intent(this@MessageSendActivity, MessageDetailActivity::class.java)
-                            .putExtra("responseData", response.body())
-                        setResult(RESULT_OK, intent)
                         finish()
                     }else{ // 이곳은 에러 발생할 경우 실행됨
                         Log.d("MessageSend", "fail")

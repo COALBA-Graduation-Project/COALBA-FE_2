@@ -37,10 +37,7 @@ class WorkspaceHomeActivity : AppCompatActivity() {
         // 해당 스케줄 삭제 서버 연동
         RetrofitManager.scheduleService?.scheduleDelete(sId)?.enqueue(object :
             Callback<Void> {
-            override fun onResponse(
-                call: Call<Void>,
-                response: Response<Void>
-            ) {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Log.d("ScheduleDelete", "success")
                     datas.removeAt(pos)
@@ -184,10 +181,6 @@ class WorkspaceHomeActivity : AppCompatActivity() {
         binding.ivWorkspacehomeScheduleplus.setOnClickListener {
             val intent = Intent(this, ScheduleAddActivity::class.java)
             intent.putExtra("storeId", storeId)
-            startActivity(intent)
-        }
-        binding.ivWorkspacehomeMessagebox.setOnClickListener {
-            val intent = Intent(this, MessageBoxActivity::class.java)
             startActivity(intent)
         }
     }

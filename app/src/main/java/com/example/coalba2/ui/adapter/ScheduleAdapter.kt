@@ -24,7 +24,9 @@ class ScheduleAdapter(private val context: Context, private val scheduleDeleteLi
     override fun onBindViewHolder(holder: ScheduleAdapter.ViewHolder, position: Int) {
         holder.bind(datas[position])
         holder.itemView.setOnClickListener {
-            scheduleDeleteListener.click(datas[position].scheduleId, position)
+            if (datas[position].status == "BEFORE_WORK"){
+                scheduleDeleteListener.click(datas[position].scheduleId, position)
+            }
         }
     }
     inner class ViewHolder(private val binding: ItemScheduleBinding) : RecyclerView.ViewHolder(binding.root){

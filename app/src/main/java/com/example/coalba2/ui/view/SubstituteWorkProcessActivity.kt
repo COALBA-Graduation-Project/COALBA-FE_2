@@ -123,5 +123,8 @@ class SubstituteWorkProcessActivity : AppCompatActivity() {
                 }
             })
         }
+        binding.ivSubstituteworkProcessBack.setOnClickListener {
+            finish()
+        }
     }
 }
