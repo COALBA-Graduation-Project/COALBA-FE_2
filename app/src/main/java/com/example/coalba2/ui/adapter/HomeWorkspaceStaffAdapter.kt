@@ -21,6 +21,7 @@ class HomeWorkspaceStaffAdapter : RecyclerView.Adapter<HomeWorkspaceStaffAdapter
             with(binding){
                 if (item.logicalStartTime == null) {
                     tvHomeWorkspaceStaffStarttime.text = item.starttime //출근 전일 때에는 스케줄 시작 시간
+                    tvHomeWorkspaceStaffStarttime.setTextColor(ContextCompat.getColor(context, R.color.black))
                 } else {
                     tvHomeWorkspaceStaffStarttime.text = item.logicalStartTime
                     if (item.logicalStartTime == item.starttime) tvHomeWorkspaceStaffStarttime.setTextColor(ContextCompat.getColor(context, R.color.main)) //근무 중
@@ -29,6 +30,7 @@ class HomeWorkspaceStaffAdapter : RecyclerView.Adapter<HomeWorkspaceStaffAdapter
 
                 if (item.logicalEndTime == null) {
                     tvHomeWorkspaceStaffEndtime.text = item.endtime //퇴근 전일 때에는 스케줄 종료 시간
+                    tvHomeWorkspaceStaffEndtime.setTextColor(ContextCompat.getColor(context, R.color.black))
                 } else {
                     tvHomeWorkspaceStaffEndtime.text = item.logicalEndTime
                     if (item.logicalEndTime == item.endtime) tvHomeWorkspaceStaffEndtime.setTextColor(ContextCompat.getColor(context, R.color.main)) //정상 퇴근
@@ -41,7 +43,7 @@ class HomeWorkspaceStaffAdapter : RecyclerView.Adapter<HomeWorkspaceStaffAdapter
                     "BEFORE_WORK" -> { tvHomeWorkspaceStaffState.text = "근무전" }
                     "ON_DUTY" -> { tvHomeWorkspaceStaffState.text = "근무중" }
                     "LATE" -> { tvHomeWorkspaceStaffState.text = "지각" }
-                    "SUCCESS " -> { tvHomeWorkspaceStaffState.text = "근무 완료" }
+                    "SUCCESS" -> { tvHomeWorkspaceStaffState.text = "근무 완료" }
                     "FAIL" -> { tvHomeWorkspaceStaffState.text = "근무 실패" }
                 }
             }
