@@ -44,16 +44,6 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:src="@drawable/ic_schedule_plus"
-        android:layout_marginEnd="12dp"
-        app:layout_constraintTop_toTopOf="@id/tv_workspacehome"
-        app:layout_constraintBottom_toBottomOf="@id/tv_workspacehome"
-        app:layout_constraintEnd_toStartOf="@id/iv_workspacehome_messagebox"/>
-
-    <ImageView
-        android:id="@+id/iv_workspacehome_messagebox"
-        android:layout_width="28dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_messagebox"
         android:layout_marginEnd="20dp"
         app:layout_constraintTop_toTopOf="@id/tv_workspacehome"
         app:layout_constraintBottom_toBottomOf="@id/tv_workspacehome"

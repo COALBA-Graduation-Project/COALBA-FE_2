@@ -9,13 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.coalba2.R
+import com.example.coalba2.api.jwt.CoalbaApplication
 import com.example.coalba2.api.retrofit.RetrofitManager
 import com.example.coalba2.data.response.ProfileLookResponseData
 import com.example.coalba2.databinding.FragmentMypageBinding
-import com.example.coalba2.ui.view.ProfileEditActivity
-import com.example.coalba2.ui.view.StoreEditActivity
-import com.example.coalba2.ui.view.SubstituteWorkManageActivity
-import com.example.coalba2.ui.view.WorkHistoryActivity
+import com.example.coalba2.ui.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -54,6 +52,19 @@ class MypageFragment : Fragment() {
             val intent = Intent(requireContext(), WorkHistoryActivity::class.java)
             startActivity(intent)
         }
+        // 로그아웃 기능
+        binding.tvMypageLogout.setOnClickListener {
+            CoalbaApplication.prefs.accessToken = null
+            CoalbaApplication.prefs.refreshToken = null
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
         // 프로필 조회 서버 연동
         RetrofitManager.profileService?.profileLook()?.enqueue(object: Callback<ProfileLookResponseData>{
             override fun onResponse(
@@ -61,22 +72,19 @@ class MypageFragment : Fragment() {
                 response: Response<ProfileLookResponseData>
             ) {
                 if(response.isSuccessful){
-                    Log.d("Network_ProfileLook", "success")
+                    Log.d("ProfileLook", "success")
                     val data = response.body()
                     binding.tvMypageName.text = data!!.realName
                     sendData = data!!.imageUrl
                     Glide.with(this@MypageFragment).load(data!!.imageUrl).into(binding.ivMypageProfile)
 
-                }else{
-                    // 이곳은 에러 발생할 경우 실행됨
-                    Log.d("Network_ProfileLook", "fail")
+                }else{ // 이곳은 에러 발생할 경우 실행됨
+                    Log.d("ProfileLook", "fail")
                 }
             }
-
             override fun onFailure(call: Call<ProfileLookResponseData>, t: Throwable) {
-                Log.d("Network_ProfileLook", "error")
+                Log.d("ProfileLook", "error")
             }
         })
-        super.onViewCreated(view, savedInstanceState)
     }
 }

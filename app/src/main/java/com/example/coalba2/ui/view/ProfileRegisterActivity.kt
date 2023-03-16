@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
@@ -47,9 +48,6 @@ class ProfileRegisterActivity : AppCompatActivity() {
             val imageUri = result.data?.data
             imageWideUri = imageUri
             imageUri?.let{
-                // 서버 업로드를 위해 파일 형태로 변환
-                // imageFile = File(getRealPathFromURI(it))
-
                 // 이미지를 불러온다
                 Glide.with(this)
                     .load(imageUri)
@@ -73,42 +71,41 @@ class ProfileRegisterActivity : AppCompatActivity() {
         binding.btnRegisterFinish.setOnClickListener {
             Log.d("profileRegister", "시작")
             Log.d("datavalue", "multipart값=> " + imageWideUri)
-            imageFile = File(getRealPathFromURI(imageWideUri!!))
-            // 서버로 보내기 위해 RequestBody객체로 변환
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), imageFile!!)
-            val body =
-                MultipartBody.Part.createFormData("imageFile", imageFile!!.name, requestFile)
-            // String 값에 "" 없애기
-            val jsonObj = JSONObject()
-            jsonObj.put("realName", binding.etRegisterName.text)
-            jsonObj.put("phoneNumber", binding.etRegisterPhonenumber.text)
-            jsonObj.put("birthDate", binding.etRegisterBirth.text)
-            val body2 = RequestBody.create("application/json".toMediaTypeOrNull(), jsonObj.toString())
-            // 현재 사용자의 정보를 받아올 것을 명시
-            // 서버 통신은 I/O 작업이므로 비동기적으로 받아올 Callback 내부 코드는 나중에 데이터를 받아오고 실행
-            RetrofitManager.profileService?.profileRegister(body2,body)?.enqueue(object : Callback<Void>{
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    // 네트워크 통신에 성공한 경우
-                    if (response.isSuccessful) {
-                        Log.d("Network_ProfileRegister", "success")
-                        val data = response.body()
-                        Log.d("responsevalue", "response값=> " + data)
-                        // 메인화면
-                        val intent = Intent(this@ProfileRegisterActivity, MainActivity::class.java)
-                        startActivity(intent)
-                    }else { // 이곳은 에러 발생할 경우 실행됨
-                        val data1 = response.code()
-                        Log.d("status code", data1.toString())
-                        val data2 = response.headers()
-                        Log.d("header", data2.toString())
-                        Log.d("server err", response.errorBody()?.string().toString())
-                        Log.d("Network_ProfileRegister", "fail")
+
+            if (imageWideUri == null){
+                Toast.makeText(this, "프로필 이미지를 추가해주세요", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                imageFile = File(getRealPathFromURI(imageWideUri!!))
+                // 서버로 보내기 위해 RequestBody객체로 변환
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), imageFile!!)
+                val body =
+                    MultipartBody.Part.createFormData("imageFile", imageFile!!.name, requestFile)
+                // String 값에 "" 없애기
+                val jsonObj = JSONObject()
+                jsonObj.put("realName", binding.etRegisterName.text)
+                jsonObj.put("phoneNumber", binding.etRegisterPhonenumber.text)
+                jsonObj.put("birthDate", binding.etRegisterBirth.text)
+                val body2 = RequestBody.create("application/json".toMediaTypeOrNull(), jsonObj.toString())
+                // 현재 사용자의 정보를 받아올 것을 명시
+                // 서버 통신은 I/O 작업이므로 비동기적으로 받아올 Callback 내부 코드는 나중에 데이터를 받아오고 실행
+                RetrofitManager.profileService?.profileRegister(body2,body)?.enqueue(object : Callback<Void>{
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        // 네트워크 통신에 성공한 경우
+                        if (response.isSuccessful) {
+                            Log.d("Network_ProfileRegister", "success")
+                            // 메인화면
+                            val intent = Intent(this@ProfileRegisterActivity, MainActivity::class.java)
+                            startActivity(intent)
+                        }else { // 이곳은 에러 발생할 경우 실행됨
+                            Log.d("Network_ProfileRegister", "fail")
+                        }
                     }
-                }
-                override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Log.d("Network_ProfileRegister", "error!")
-                }
-            })
+                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                        Log.d("Network_ProfileRegister", "error!")
+                    }
+                })
+            }
         }
     }
     // 이미지 실제 경로 반환

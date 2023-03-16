@@ -186,10 +186,6 @@ class WorkspaceHomeActivity : AppCompatActivity() {
             intent.putExtra("storeId", storeId)
             startActivity(intent)
         }
-        binding.ivWorkspacehomeMessagebox.setOnClickListener {
-            val intent = Intent(this, MessageBoxActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     fun dayClick(day: String){
