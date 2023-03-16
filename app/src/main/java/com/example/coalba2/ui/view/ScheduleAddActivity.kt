@@ -93,13 +93,13 @@ class ScheduleAddActivity : AppCompatActivity() {
                     if(response.isSuccessful){
                         Log.d("SchedulePossible", "success")
                         val data = response.body()
-                        Log.d("SchedulePossibleData", data.toString())
                         val num = data!!.staffList.count()
                         Log.d("num 값", "num 값 " + num)
                         if(num == 0){
                             Toast.makeText(this@ScheduleAddActivity, "가능한 알바생이 없습니다!", Toast.LENGTH_SHORT).show()
                         }
                         else{
+                            datas.clear()
                             for(i in 0..num-1){
                                 val itemdata = response.body()?.staffList?.get(i)
                                 Log.d("responsevalue", "possible_response 값 => "+ itemdata)

@@ -28,7 +28,18 @@ class SubstituteWorkManageActivity : AppCompatActivity() {
         // 바인딩
         mBinding = ActivitySubstituteWorkManageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.ivSubstituteworkManageBack.setOnClickListener {
+            finish()
+        }
+    }
+    private fun initRecycler(){
+        binding.rvSubstituteworkDate.adapter = SubstituteWorkDateAdapter().build(itemList)
+        binding.rvSubstituteworkDate.layoutManager = LinearLayoutManager(this)
+    }
 
+    override fun onResume() {
+        super.onResume()
+        itemList.clear()
         // 대타근무 요청 관리 리스트 조회 서버 연동
         RetrofitManager.substituteReqService?.substituteReqListLook()?.enqueue(object:
             Callback<SubstituteReqListLookResponseData> {
@@ -50,19 +61,13 @@ class SubstituteWorkManageActivity : AppCompatActivity() {
                         ))
                     }
                     initRecycler()
-                } else {
-                    // 이곳은 에러 발생할 경우 실행됨
+                } else { // 이곳은 에러 발생할 경우 실행됨
                     Log.d("SubstituteReqListLook", "fail")
                 }
             }
-
             override fun onFailure(call: Call<SubstituteReqListLookResponseData>, t: Throwable) {
                 Log.d("SubstituteReqListLook", "error")
             }
         })
-    }
-    private fun initRecycler(){
-        binding.rvSubstituteworkDate.adapter = SubstituteWorkDateAdapter().build(itemList)
-        binding.rvSubstituteworkDate.layoutManager = LinearLayoutManager(this)
     }
 }

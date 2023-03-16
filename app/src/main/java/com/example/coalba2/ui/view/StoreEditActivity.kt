@@ -21,12 +21,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.coalba2.R
 import com.example.coalba2.api.retrofit.RetrofitManager
-import com.example.coalba2.data.response.PartTimeManageData
-import com.example.coalba2.data.response.WorkspaceDetailResponseData
-import com.example.coalba2.data.response.WorkspaceStaffListLookResponseData
+import com.example.coalba2.data.response.*
 import com.example.coalba2.databinding.ActivityProfileEditBinding
 import com.example.coalba2.databinding.ActivityStoreEditBinding
 import com.example.coalba2.ui.adapter.PartTimeJobManageAdapter
+import com.example.coalba2.ui.adapter.StoreListAdapter
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -45,6 +44,7 @@ class StoreEditActivity : AppCompatActivity() {
     var imageWideUri: Uri? = null
     var storeRegister: String = ""
     var storeRegisterPayment: String = ""
+    var storeList : Array<String> = emptyArray()
 
     companion object {
         // 갤러리 권한 요청
@@ -59,9 +59,6 @@ class StoreEditActivity : AppCompatActivity() {
             val imageUri = result.data?.data
             imageWideUri = imageUri
             imageUri?.let{
-                // 서버 업로드를 위해 파일 형태로 변환
-                // imageFile = File(getRealPathFromURI(it))
-
                 // 이미지를 불러온다
                 Glide.with(this)
                     .load(imageUri)
@@ -77,20 +74,44 @@ class StoreEditActivity : AppCompatActivity() {
         mBinding = ActivityStoreEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var data = listOf("yummyy", "hello", "송이커피 숙대점", "송이쌀국수 숙대점", "송이마라탕 숙대점")
-        var adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, data)
-        binding.spinnerStore.adapter = adapter
-        binding.spinnerStore.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                if(position!=0){
-                    Toast.makeText(this@StoreEditActivity, data[position],Toast.LENGTH_SHORT).show()
+        // 나의 워크스페이스 리스트 조회 서버 연동
+        RetrofitManager.workspaceService?.workspaceListLook()?.enqueue(object:
+            Callback<WorkspaceListLookResponseData> {
+            override fun onResponse(
+                call: Call<WorkspaceListLookResponseData>,
+                response: Response<WorkspaceListLookResponseData>) {
+                if(response.isSuccessful){
+                    Log.d("WorkspaceListLook_edit", "success")
+                    val data = response.body()
+                    val num = data!!.workspaceList.count()
+                    Glide.with(this@StoreEditActivity).load(data.workspaceList.get(0).imageUrl).into(binding.ivStoreEdit)
+
+                    for(i in 0..num-1){
+                        val itemdata = response.body()?.workspaceList?.get(i)
+                        storeList = storeList.plus(itemdata!!.name)
+                    }
+                    val adapter = ArrayAdapter(this@StoreEditActivity, android.R.layout.simple_list_item_1, storeList)
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    binding.spinnerStore.adapter = adapter
+                    binding.spinnerStore.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+                        override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                            if(position!=0){
+                                Toast.makeText(this@StoreEditActivity, storeList[position],Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                        }
+                    }
+                }else{
+                    // 이곳은 에러 발생할 경우 실행됨
+                    Log.d("WorkspaceListLook_edit", "fail")
                 }
             }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
+            override fun onFailure(call: Call<WorkspaceListLookResponseData>, t: Throwable) {
+                Log.d("WorkspaceListLook_edit", "error")
             }
-        }
+        })
         // 해당 워크스페이스 정보 상세 조회 서버 연동
         RetrofitManager.workspaceService?.workspaceDetail(3)?.enqueue(object:
             Callback<WorkspaceDetailResponseData> {

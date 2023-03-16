@@ -97,6 +97,7 @@ class ProfileRegisterActivity : AppCompatActivity() {
                             // 메인화면
                             val intent = Intent(this@ProfileRegisterActivity, MainActivity::class.java)
                             startActivity(intent)
+                            finish()
                         }else { // 이곳은 에러 발생할 경우 실행됨
                             Log.d("Network_ProfileRegister", "fail")
                         }

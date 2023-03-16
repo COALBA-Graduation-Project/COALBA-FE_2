@@ -36,7 +36,11 @@ class MessageBoxActivity : AppCompatActivity() {
         val data = intent.getParcelableExtra<StoreListForMessageData>("dataForMessage")
         binding.tvMessagebox.text = data!!.name
         storeId = data.workspaceId
+    }
 
+    override fun onResume() {
+        super.onResume()
+        datas.clear()
         // 해당 워크스페이스 내 알바와의 쪽지함 리스트 조회 서버 연동
         RetrofitManager.messageService?.messageBox(storeId)?.enqueue(object:
             Callback<MessageBoxResponseData> {
@@ -59,17 +63,16 @@ class MessageBoxActivity : AppCompatActivity() {
                             val itemdata = response.body()?.messageBoxList?.get(i)
                             Log.d("responsevalue", "itemdata1_response 값 => "+ itemdata)
                             if (itemdata?.latestDateTime == null){
-                                datas.add(MessageBoxData(storeId, itemdata!!.staff!!.staffId, itemdata.staff!!.imageUrl, itemdata.staff!!.name, "", ""))
+                                datas.add(MessageBoxData(storeId, itemdata!!.staff!!.staffId, itemdata.staff!!.imageUrl, itemdata.staff.name, "", ""))
                             }
                             else{
-                                datas.add(MessageBoxData(storeId, itemdata!!.staff!!.staffId, itemdata!!.staff!!.imageUrl, itemdata.staff!!.name, itemdata.latestMessage, itemdata.latestDateTime))
+                                datas.add(MessageBoxData(storeId, itemdata!!.staff!!.staffId, itemdata.staff!!.imageUrl, itemdata.staff.name, itemdata.latestMessage, itemdata.latestDateTime))
                             }
                         }
                         messageBoxAdapter.datas = datas
                         messageBoxAdapter.notifyDataSetChanged()
                     }
-                }else{
-                    // 이곳은 에러 발생할 경우 실행됨
+                }else{ // 이곳은 에러 발생할 경우 실행됨
                     Log.d("MessageBox", "fail")
                 }
             }

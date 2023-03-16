@@ -29,10 +29,7 @@ class PartTimeJobAddActivity : AppCompatActivity() {
             // 해당 워크스페이스에 알바 추가 서버 연동
             RetrofitManager.workspaceService?.workspaceStaffAdd(intent.getLongExtra("storeId", 0), binding.etParttimeAddEmail.text.toString())?.enqueue(object:
                 Callback<Void> {
-                override fun onResponse(
-                    call: Call<Void>,
-                    response: Response<Void>
-                ) {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if(response.isSuccessful){
                         Log.d("WorkspaceStaffAdd", "success")
                         finish()
