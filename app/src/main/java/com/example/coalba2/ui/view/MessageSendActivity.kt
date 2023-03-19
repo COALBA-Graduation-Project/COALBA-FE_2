@@ -73,5 +73,8 @@ class MessageSendActivity : AppCompatActivity() {
                 }
             })
         }
+        binding.ivMessagesendBack.setOnClickListener {
+            finish()
+        }
     }
 }
