@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="@id/iv_substitutework_process_back"
         app:layout_constraintBottom_toBottomOf="@id/iv_substitutework_process_back"/>
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_substitutework_process_profile1"
         android:layout_width="52dp"
         android:layout_height="52dp"
@@ -62,7 +62,7 @@
         app:layout_constraintTop_toTopOf="@id/tv_substitutework_process_name1"
         app:layout_constraintBottom_toBottomOf="@id/tv_substitutework_process_name1"/>
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_substitutework_process_profile2"
         android:layout_width="52dp"
         android:layout_height="52dp"

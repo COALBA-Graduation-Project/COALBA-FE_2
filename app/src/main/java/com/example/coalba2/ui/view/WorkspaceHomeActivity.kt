@@ -106,7 +106,6 @@ class WorkspaceHomeActivity : AppCompatActivity() {
 
                     for(i in 0..num-1){
                         val itemdata = response.body()?.workspaceList?.get(i)
-                        Log.d("responsevalue", "itemdata1_response 값 => "+ itemdata)
                         if (itemdata!!.name == binding.tvWorkspacehome.text){
                             storeId = itemdata.workspaceId
                         }
@@ -140,7 +139,6 @@ class WorkspaceHomeActivity : AppCompatActivity() {
 
                         for(i in 0..num-1){
                             val itemdata = response.body()?.selectedSubPage?.selectedScheduleList?.get(i)
-                            Log.d("responsevalue", "itemdata1_response 값 => "+ itemdata)
                             datas.add(ScheduleData(itemdata!!.scheduleId, itemdata.worker!!.name, itemdata.scheduleStartTime, itemdata.scheduleEndTime, itemdata.status))
                         }
                         scheduleAdapter.datas = datas
@@ -185,9 +183,9 @@ class WorkspaceHomeActivity : AppCompatActivity() {
         }
     }
 
-    fun dayClick(day: String){
+    fun dayClick(year: Int, month: Int, day: Int){
         // 해당 워크스페이스 홈 해당 날짜 스케줄 조회 서버 연동
-        RetrofitManager.scheduleService?.scheduleEachWorkspaceSchedule(storeId, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH)+1, day.toInt())?.enqueue(object:
+        RetrofitManager.scheduleService?.scheduleEachWorkspaceSchedule(storeId, year, month, day)?.enqueue(object:
             Callback<ScheduleEachWorkspaceScheduleResponseData> {
             override fun onResponse(
                 call: Call<ScheduleEachWorkspaceScheduleResponseData>,
@@ -196,12 +194,10 @@ class WorkspaceHomeActivity : AppCompatActivity() {
                 if(response.isSuccessful){
                     Log.d("ScheduleCalendarClick", "success")
                     val data = response.body()
-                    Log.d("ScheduleCalendarData", data.toString())
                     datas.removeAll(datas)
                     scheduleAdapter.notifyDataSetChanged()
 
                     val num = data!!.selectedScheduleList.count()
-                    Log.d("num 값", "num 값 " + num)
                     if(num == 0){
                         Toast.makeText(this@WorkspaceHomeActivity, "오늘은 휴무입니다!", Toast.LENGTH_SHORT).show()
                     }
@@ -210,14 +206,12 @@ class WorkspaceHomeActivity : AppCompatActivity() {
 
                         for(i in 0..num-1){
                             val itemdata = response.body()?.selectedScheduleList?.get(i)
-                            Log.d("responsevalue", "itemdata1_response 값 => "+ itemdata)
                             datas.add(ScheduleData(itemdata!!.scheduleId, itemdata!!.worker!!.name, itemdata.scheduleStartTime, itemdata.scheduleEndTime, itemdata.status))
                         }
                         scheduleAdapter.datas = datas
                         scheduleAdapter.notifyDataSetChanged()
                     }
-                }else{
-                    // 이곳은 에러 발생할 경우 실행됨
+                }else{ // 이곳은 에러 발생할 경우 실행됨
                     Log.d("ScheduleCalendarClick", "fail")
                 }
             }
